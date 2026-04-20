@@ -2,6 +2,12 @@
 
 import { CodeBlock } from "./components/CodeBlock";
 import { KyivClock } from "./components/KyivClock";
+import {
+  loadExperts,
+  loadFaqs,
+  loadHeroSlides,
+  loadTestimonials,
+} from "@/lib/content/loader";
 
 const asset = (id: string) => `/api/figma-assets/${id}`;
 
@@ -13,28 +19,6 @@ const assets = {
   grid: asset("a42716ae-7727-41dd-94af-04459865de42"),
   ctaGrid: asset("03a3c525-90dc-47e4-a9f4-de700c0fe356"),
   cup: asset("d7c294d6-d7bc-49ad-971b-2bf660fe1e85"),
-  heroPhotos: [
-    asset("f03350a9-ad27-4d27-a1ee-74ee0b2adfdb"),
-    asset("d23d6728-2dbf-40eb-970b-c76d515a5aa2"),
-    asset("f30de078-11d3-463f-a4b0-ab5580a28fa3"),
-    asset("906813e9-ef0c-49d0-b1b2-b9874797fab1"),
-    asset("15e00f3d-6947-4c86-837b-15ad8111b2ba"),
-  ],
-  testimonialPhotos: [
-    asset("bdcd73ca-6a45-4c0f-9ac9-48e3d3e3b057"),
-    asset("b5fc5c9e-2a19-4b2c-87b4-1fe6f6d7a2ad"),
-    asset("f61db793-cf91-4e65-8397-35f0466cc29a"),
-    asset("4456726e-c080-4afc-818d-9dfac0f44135"),
-    asset("037c73f4-28cf-4ca0-9c2c-c0efde571a1a"),
-    asset("cdf2ee1c-4b2e-40d8-b501-ead5ac46d5f6"),
-  ],
-  judges: [
-    asset("68577c27-6b21-4a47-8fdb-5a0bba106327"),
-    asset("3d3d4756-8326-425b-a0b9-21c641388e5b"),
-    asset("624b50cc-d91c-45d6-aff1-7be00cb97be5"),
-    asset("d013e21c-0445-43ae-b857-8d95729b4d9e"),
-    asset("6e603cd0-21b2-4093-b4d9-912dd0154571"),
-  ],
   founders: [
     asset("7b4def25-514b-4ce7-9779-c25f7ae4267c"),
     asset("b26efb79-0a06-40d1-9372-e1c46fffb18a"),
@@ -58,14 +42,6 @@ const levels = [
   ["02 Level", "Middle", "Відточуй навички", "та рости в рейтингу", 2],
   ["03 Level", "Senior", "Контролюй складність", "і доводь рівень", 3],
 ] as const;
-
-const judges = [
-  ["Олександр Коваленко", "CTO @ TechCorp", assets.judges[0]],
-  ["Марина Петренко", "Lead Backend Engineer", assets.judges[1]],
-  ["Дмитро Савченко", "Principal Architect", assets.judges[2]],
-  ["Дмитро Савченко", "Principal Architect", assets.judges[3]],
-  ["Кирило Редька", "Staff Engineer", assets.judges[4]],
-];
 
 const tariffs = [
   ["Free trial", "Безкоштовно", "", "Для старту та знайомства", "з системою", "Обрати free trial"],
@@ -147,7 +123,20 @@ function Gallery({ photos, double = false }: { photos: string[]; double?: boolea
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const [heroSlides, testimonials, experts, faqs] = await Promise.all([
+    loadHeroSlides(),
+    loadTestimonials(),
+    loadExperts(),
+    loadFaqs(),
+  ]);
+
+  const heroPhotos = heroSlides.map((s) => s.photo_url);
+  const testimonialPhotos = testimonials
+    .map((t) => t.photo_url)
+    .filter((url): url is string => Boolean(url));
+  const featuredTestimonial = testimonials[0];
+
   return (
     <main className="site">
       <header className="header">
@@ -199,7 +188,7 @@ export default function Home() {
               Тут не вчать — тут перевіряють
             </p>
           </div>
-          <Gallery photos={assets.heroPhotos} />
+          <Gallery photos={heroPhotos} />
           <p className="system-small">{"// System.feed.active"}</p>
         </div>
       </section>
@@ -293,14 +282,14 @@ export default function Home() {
         <CodeBlock lines={[["Review process", "manual"], ["Judges", "industry experts"], ["Evaluation", "multi-layer"]]} />
         <h2>Експерти галузі</h2>
         <div className="judge-grid">
-          {judges.map(([name, role, photo], index) => (
-            <article className="judge-card" key={`${name}-${index}`}>
+          {experts.map((expert, index) => (
+            <article className="judge-card" key={`${expert.id}-${index}`}>
               <div className={index === 3 ? "judge-photo judge-photo-featured" : "judge-photo"}>
-                <img alt={name} src={photo} />
+                {expert.photo_url && <img alt={expert.name} src={expert.photo_url} />}
                 {index === 3 && <Button>Детальніше</Button>}
               </div>
-              <h3>{name}</h3>
-              <p>{role}</p>
+              <h3>{expert.name}</h3>
+              {expert.role && <p>{expert.role}</p>}
             </article>
           ))}
         </div>
@@ -398,34 +387,34 @@ export default function Home() {
       <Shell className="testimonials">
         <CodeBlock lines={[["Feedback source", "participants"], ["Verification", "post-competition"], ["Filtering", "minimal"]]} />
         <h2>Що кажуть учасники</h2>
-        <Gallery photos={assets.testimonialPhotos} double />
-        <div className="quote">
-          <button aria-label="Попередній відгук">‹</button>
-          <blockquote>
-            &quot;Формат ліги ідеальний для тих, хто хоче постійно прогресувати. Нарешті зрозумів, де мої прогалини. Дякую за чесну оцінку.&quot;
-            <cite>
-              <strong>Віктор П.</strong>
-              <span>Junior Developer</span>
-            </cite>
-          </blockquote>
-          <button aria-label="Наступний відгук">›</button>
-        </div>
+        {testimonialPhotos.length > 0 && (
+          <Gallery photos={testimonialPhotos} double />
+        )}
+        {featuredTestimonial && (
+          <div className="quote">
+            <button aria-label="Попередній відгук">‹</button>
+            <blockquote>
+              &quot;{featuredTestimonial.quote}&quot;
+              <cite>
+                <strong>{featuredTestimonial.author_name}</strong>
+                {featuredTestimonial.author_role && (
+                  <span>{featuredTestimonial.author_role}</span>
+                )}
+              </cite>
+            </blockquote>
+            <button aria-label="Наступний відгук">›</button>
+          </div>
+        )}
       </Shell>
 
       <Shell id="faq" className="faq-section">
         <CodeBlock lines={[["System clarity", "required"], ["Ambiguity", "reduced"], ["Rules", "transparent"]]} />
         <h2>Є питання</h2>
         <div className="faq-list">
-          {[
-            ["Це навчання чи змагання?", ""],
-            ["Чи можна почати безкоштовно?", "Так. Базовий пакет безкоштовний і включає доступ до 3 тренувальних турнірів та 1 рейтингового турніру на місяць. Це дозволяє оцінити формат перед переходом на платний пакет."],
-            ["Як формується рейтинг?", ""],
-            ["Хто перевіряє роботи?", ""],
-            ["Чи підходить для Junior?", ""],
-          ].map(([question, answer]) => (
-            <details key={question} open={Boolean(answer)}>
-              <summary>{question}</summary>
-              {answer && <p>{answer}</p>}
+          {faqs.map((faq) => (
+            <details key={faq.id} open={Boolean(faq.answer)}>
+              <summary>{faq.question}</summary>
+              {faq.answer && <p>{faq.answer}</p>}
             </details>
           ))}
         </div>
