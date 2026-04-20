@@ -258,6 +258,22 @@ img {
 
 .code-block p {
   margin: 0;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+}
+
+.code-block.is-visible p {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-block p {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .code-pink {

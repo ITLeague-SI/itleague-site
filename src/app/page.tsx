@@ -1,5 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
+import { CodeBlock } from "./components/CodeBlock";
+import { KyivClock } from "./components/KyivClock";
+
 const asset = (id: string) => `/api/figma-assets/${id}`;
 
 const assets = {
@@ -87,25 +90,6 @@ const comparison = [
   ["Переваги у викликах від компаній", "❌", "❌", "❌", "✅"],
   ["Сертифікат", "❌", "season pass", "учасник / топ-10\n→ із балами та місцем у рейтингу", "PRO\n+ рекомендація*"],
 ];
-
-function CodeBlock({
-  lines,
-  tone = "green",
-}: {
-  lines: Array<[string, string]>;
-  tone?: "green" | "blue" | "neutral";
-}) {
-  return (
-    <div className="code-block">
-      {lines.map(([label, value]) => (
-        <p key={label}>
-          <span className="code-pink">&gt; {label}: </span>
-          <span className={`code-${tone}`}>{value}</span>
-        </p>
-      ))}
-    </div>
-  );
-}
 
 function Button({
   children,
@@ -199,7 +183,7 @@ export default function Home() {
         <div className="hero-inner">
           <div className="hero-meta">
             <CodeBlock lines={[["System status", "active"], ["Mode", "competitive"], ["Access", "open"]]} />
-            <p className="time">13:37:00 (GMT+2)</p>
+            <KyivClock />
           </div>
           <div className="hero-title">
             <img alt="IT League Backend" className="hero-wordmark" src={assets.wordmark} />
