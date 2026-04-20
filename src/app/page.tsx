@@ -1,6 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { CodeBlock } from "./components/CodeBlock";
+import {
+  IconChart,
+  IconCode,
+  IconTarget,
+  IconTree,
+  IconTrophy,
+} from "./components/GrowthIcons";
 import { KyivClock } from "./components/KyivClock";
 import {
   loadExperts,
@@ -42,6 +49,14 @@ const levels = [
   ["02 Level", "Middle", "Відточуй навички", "та рости в рейтингу", 2],
   ["03 Level", "Senior", "Контролюй складність", "і доводь рівень", 3],
 ] as const;
+
+const growthSteps = [
+  { label: "Реєстрація", icon: <IconCode /> },
+  { label: "Вибір турніру", icon: <IconTree /> },
+  { label: "Виконання задач", icon: <IconTarget /> },
+  { label: "Оцінка та рейтинг", icon: <IconTrophy /> },
+  { label: "Зростання у лізі", icon: <IconChart /> },
+];
 
 const tariffs = [
   ["Free trial", "Безкоштовно", "", "Для старту та знайомства", "з системою", "Обрати free trial"],
@@ -343,10 +358,15 @@ export default async function Home() {
         <CodeBlock tone="blue" lines={[["Flow type", "sequential"], ["Evaluation", "after each step"], ["Ranking update", "continuous"]]} />
         <h2>П&apos;ять кроків до росту</h2>
         <div className="growth-line">
-          {["Реєстрація", "Вибір турніру", "Виконання задач", "Оцінка та рейтинг", "Зростання у лізі"].map((step, index) => (
-            <article className="growth-step" key={step}>
-              <h3>{step}</h3>
-              <div className="growth-dot" />
+          {growthSteps.map((step, index) => (
+            <article className="growth-step" key={step.label}>
+              <h3>{step.label}</h3>
+              <div className="growth-step-row">
+                <div className="growth-step-circle">{step.icon}</div>
+                {index < growthSteps.length - 1 && (
+                  <div className="growth-step-dash" aria-hidden="true" />
+                )}
+              </div>
               <p>{String(index + 1).padStart(2, "0")}</p>
             </article>
           ))}
