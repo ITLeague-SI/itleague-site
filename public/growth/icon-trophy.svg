@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon-game">
+<path id="Vector" d="M14 18.4987C17.866 18.4987 21 15.2725 21 11.2928V3.33203H7V11.2928C7 15.2725 10.134 18.4987 14 18.4987Z" stroke="var(--stroke-0, #A5ADBA)" stroke-linejoin="round"/>
+<path id="Vector_2" fill-rule="evenodd" clip-rule="evenodd" d="M6.99967 13.2513V7.41797H2.33301C2.33301 11.3069 4.66634 13.2513 6.99967 13.2513Z" stroke="var(--stroke-0, #A5ADBA)" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" fill-rule="evenodd" clip-rule="evenodd" d="M21 13.2513V7.41797H25.6667C25.6667 11.3069 23.3333 13.2513 21 13.2513Z" stroke="var(--stroke-0, #A5ADBA)" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M14 19.668V22.0013" stroke="var(--stroke-0, #A5ADBA)" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_5" d="M8.75 25.5L10.9025 22H16.9415L19.25 25.5H8.75Z" stroke="var(--stroke-0, #A5ADBA)" stroke-linejoin="round"/>
+</g>
+</svg>

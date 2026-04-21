@@ -1,13 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { CodeBlock } from "./components/CodeBlock";
-import {
-  IconChart,
-  IconCode,
-  IconTarget,
-  IconTree,
-  IconTrophy,
-} from "./components/GrowthIcons";
+import { ExpertCard } from "./components/ExpertCard";
+import { GrowthSteps } from "./components/GrowthSteps";
 import { KyivClock } from "./components/KyivClock";
 import {
   loadExperts,
@@ -49,14 +44,6 @@ const levels = [
   ["02 Level", "Middle", "Відточуй навички", "та рости в рейтингу", 2],
   ["03 Level", "Senior", "Контролюй складність", "і доводь рівень", 3],
 ] as const;
-
-const growthSteps = [
-  { label: "Реєстрація", icon: <IconCode /> },
-  { label: "Вибір турніру", icon: <IconTree /> },
-  { label: "Виконання задач", icon: <IconTarget /> },
-  { label: "Оцінка та рейтинг", icon: <IconTrophy /> },
-  { label: "Зростання у лізі", icon: <IconChart /> },
-];
 
 const tariffs = [
   ["Free trial", "Безкоштовно", "", "Для старту та знайомства", "з системою", "Обрати free trial"],
@@ -176,9 +163,9 @@ export default async function Home() {
           <img alt="" aria-hidden="true" src={assets.arrowDark} />
         </a>
         <div className="mobile-nav-panel">
-          <a href="#about">РџСЂРѕ Р»С–РіСѓ</a>
-          <a href="#prices">РџР°РєРµС‚Рё</a>
-          <a href="#judges">РЎСѓРґРґС–</a>
+          <a href="#about">Про лігу</a>
+          <a href="#prices">Пакети</a>
+          <a href="#judges">Судді</a>
           <a href="#faq">FAQ</a>
         </div>
       </header>
@@ -298,14 +285,7 @@ export default async function Home() {
         <h2>Експерти галузі</h2>
         <div className="judge-grid">
           {experts.map((expert, index) => (
-            <article className="judge-card" key={`${expert.id}-${index}`}>
-              <div className={index === 3 ? "judge-photo judge-photo-featured" : "judge-photo"}>
-                {expert.photo_url && <img alt={expert.name} src={expert.photo_url} />}
-                {index === 3 && <Button>Детальніше</Button>}
-              </div>
-              <h3>{expert.name}</h3>
-              {expert.role && <p>{expert.role}</p>}
-            </article>
+            <ExpertCard key={`${expert.id}-${index}`} expert={expert} />
           ))}
         </div>
       </Shell>
@@ -356,20 +336,9 @@ export default async function Home() {
 
       <Shell className="growth">
         <CodeBlock tone="blue" lines={[["Flow type", "sequential"], ["Evaluation", "after each step"], ["Ranking update", "continuous"]]} />
-        <h2>П&apos;ять кроків до росту</h2>
-        <div className="growth-line">
-          {growthSteps.map((step, index) => (
-            <article className="growth-step" key={step.label}>
-              <h3>{step.label}</h3>
-              <div className="growth-step-row">
-                <div className="growth-step-circle">{step.icon}</div>
-                {index < growthSteps.length - 1 && (
-                  <div className="growth-step-dash" aria-hidden="true" />
-                )}
-              </div>
-              <p>{String(index + 1).padStart(2, "0")}</p>
-            </article>
-          ))}
+        <div className="growth-body">
+          <h2>П&apos;ять кроків до росту</h2>
+          <GrowthSteps />
         </div>
       </Shell>
 

@@ -708,12 +708,28 @@ h2 {
   padding: 0 6px;
 }
 
+/* Сама карточка — <button>, чтобы вся область была кликабельной (открывает модалку) */
 .judge-card {
-  padding-bottom: 60px;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0 0 60px;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.judge-card:nth-child(4) {
-  grid-column: 2;
+.judge-card:focus {
+  outline: none;
+}
+
+.judge-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .judge-photo {
@@ -726,21 +742,114 @@ h2 {
 }
 
 .judge-photo img {
-  width: 172px;
-  height: 172px;
-  object-fit: cover;
-}
-
-.judge-photo-featured img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
   filter: grayscale(1);
+  transition: transform 0.4s ease, filter 0.4s ease;
 }
 
-.judge-photo .button {
+.judge-card:hover .judge-photo img,
+.judge-card:focus-visible .judge-photo img {
+  transform: scale(1.03);
+}
+
+/* Нижний градиент — появляется вместе с CTA, чтобы текст кнопки читался на фото */
+.judge-photo::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 190px;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 16, 20, 0) 0%,
+    var(--background-primary) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.judge-card:hover .judge-photo::after,
+.judge-card:focus-visible .judge-photo::after {
+  opacity: 1;
+}
+
+/* Кнопка «Детальніше →» — 148×56 (node 23:302), центрирована, скрыта по умолчанию */
+.judge-photo-cta {
   position: absolute;
   bottom: 40px;
-  min-width: 145px;
+  left: 50%;
+  width: 148px;
+  height: 56px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  color: #ffffff;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translate(-50%, 12px) scale(1);
+  transition:
+    opacity 0.3s ease,
+    transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1),
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  /* auto — чтобы у кнопки был собственный :hover (scale).
+     Клик по ней всё равно bubble'ает к внешнему <button.judge-card>. */
+  pointer-events: auto;
+}
+
+/* Жёстко задаём белый цвет и тексту, и SVG-иконке внутри кнопки —
+   чтобы никакие внешние правила `.judge-card p/span` это не перекрыли */
+.judge-photo-cta,
+.judge-photo-cta > span,
+.judge-photo-cta > svg {
+  color: #ffffff;
+}
+
+.judge-photo-cta > svg path {
+  stroke: #ffffff;
+}
+
+.judge-photo-cta svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  transition: transform 0.25s ease;
+}
+
+.judge-card:hover .judge-photo-cta,
+.judge-card:focus-visible .judge-photo-cta {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+/* Усиленный hover именно на самой кнопке: чуть плотнее фон + подъём + scale */
+.judge-card .judge-photo-cta:hover {
+  transform: translate(-50%, -2px) scale(1.06);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.5);
+}
+
+.judge-card .judge-photo-cta:hover svg {
+  transform: translateX(3px);
 }
 
 .judge-card h3 {
@@ -749,6 +858,237 @@ h2 {
 
 .judge-card p {
   margin: 0 16px;
+}
+
+/* ========== Модалка эксперта ========== */
+
+.expert-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(10, 16, 20, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+}
+
+.expert-modal-backdrop[data-phase="open"] {
+  animation: expert-modal-fade-in 0.22s ease forwards;
+}
+
+.expert-modal-backdrop[data-phase="closing"] {
+  animation: expert-modal-fade-out 0.22s ease forwards;
+}
+
+@keyframes expert-modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes expert-modal-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.expert-modal {
+  position: relative;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 40px;
+  width: min(960px, 100%);
+  max-height: calc(100vh - 48px);
+  padding: 40px;
+  background: var(--background-card);
+  border: 1px solid var(--border-primary);
+  overflow: auto;
+  opacity: 0;
+}
+
+.expert-modal[data-phase="open"] {
+  animation: expert-modal-pop-in 0.28s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+.expert-modal[data-phase="closing"] {
+  animation: expert-modal-pop-out 0.22s ease forwards;
+}
+
+@keyframes expert-modal-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes expert-modal-pop-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+}
+
+.expert-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border-primary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.expert-modal-close:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.expert-modal-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.expert-modal-photo {
+  width: 360px;
+  height: 440px;
+  overflow: hidden;
+  background: var(--background-card-alt);
+}
+
+.expert-modal-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.2);
+}
+
+.expert-modal-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #12161d 0%, #0a1014 100%);
+}
+
+.expert-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-right: 32px;
+  min-width: 0;
+}
+
+.expert-modal-body h3 {
+  margin: 0;
+  font-family: var(--font-tektur), sans-serif;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: 0.14px;
+  color: var(--text-primary);
+}
+
+.expert-modal-role {
+  margin: 0;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.expert-modal-bio {
+  margin: 0;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--text-primary);
+}
+
+.expert-modal-achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-primary);
+}
+
+.expert-modal-achievements h4 {
+  margin: 0;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.expert-modal-achievements ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.expert-modal-achievements li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--text-primary);
+}
+
+.expert-modal-achievements li::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 8px;
+  height: 1px;
+  background: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .expert-modal {
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 24px;
+  }
+
+  .expert-modal-photo {
+    width: 100%;
+    height: 280px;
+  }
+
+  .expert-modal-body {
+    padding-right: 0;
+  }
 }
 
 .prices {
@@ -868,48 +1208,77 @@ h2 {
 }
 
 .growth .section-inner {
-  gap: 80px;
+  gap: 116px;
   padding-bottom: 0;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.growth-body {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  padding-bottom: 116px;
 }
 
 .growth-line {
   position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  align-items: start;
-  gap: 0;
-  margin: 0 40px 116px;
-  padding-top: 30px;
+  gap: 6px;
+  padding: 0 40px;
+}
+
+/* Горизонтальная пунктирная линия через центр ряда с кругами.
+   Ряд кругов 72px, верхний ряд (заголовки) 48px + row-gap 12px →
+   центр ряда кругов от верха: 48 + 12 + 36 = 96px. */
+.growth-line::before {
+  content: "";
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 96px;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(143, 179, 201, 0.45) 0 4px,
+    transparent 4px 10px
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .growth-step {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: grid;
+  grid-template-rows: 48px 72px 16px;
+  row-gap: 12px;
+  justify-items: start;
+  align-items: start;
+  min-width: 0;
 }
 
 .growth-step h3 {
-  min-height: 48px;
-  margin: 0 0 16px;
-  padding: 0;
-  font-size: 18px;
-  font-weight: 700;
+  grid-row: 1;
+  margin: 0;
+  padding-left: 12px;
+  border-left: 1px solid var(--border-primary);
+  font-family: var(--font-inter), sans-serif;
+  font-size: 16px;
+  font-weight: 800;
   line-height: 24px;
+  color: var(--text-primary);
+  white-space: pre-line;
+  align-self: start;
 }
 
-.growth-step-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-}
-
+/* Круг занимает ряд 72px и центрируется в нём (как вертикально, так и горизонтально слева) */
 .growth-step-circle {
-  flex: 0 0 56px;
-  width: 56px;
-  height: 56px;
+  grid-row: 2;
+  align-self: center;
+  position: relative;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -917,21 +1286,43 @@ h2 {
   border-radius: 50%;
   background: var(--background-primary);
   color: var(--icons);
+  transition:
+    width 0.4s ease,
+    height 0.4s ease,
+    border-color 0.4s ease,
+    background-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.4s ease;
 }
 
-.growth-step-dash {
-  flex: 1;
-  height: 1px;
-  background: repeating-linear-gradient(90deg, var(--icons) 0 4px, transparent 4px 8px);
-  opacity: 0.55;
+.growth-step-circle svg {
+  width: 28px;
+  height: 28px;
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.growth-step-active .growth-step-circle {
+  width: 72px;
+  height: 72px;
+  border-color: var(--accent);
+  background: var(--background-card);
+  color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(110, 168, 255, 0.08);
+}
+
+.growth-step-active .growth-step-circle svg {
+  width: 24px;
+  height: 24px;
 }
 
 .growth-step p {
-  margin: 12px 0 0;
+  grid-row: 3;
+  margin: 0;
+  padding-left: 6px;
   font-family: var(--font-jetbrains), monospace;
   font-size: 12px;
   line-height: 16px;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .founders .section-inner {
@@ -1471,15 +1862,6 @@ h2 {
     height: 280px;
   }
 
-  .judge-photo .button {
-    right: 8px;
-    bottom: 8px;
-    width: 56px;
-    min-width: 56px;
-    padding: 0;
-    font-size: 0;
-  }
-
   .judge-card h3 {
     margin: 16px 12px 8px;
   }
@@ -1559,24 +1941,21 @@ h2 {
     padding: 6px 0 0 0;
   }
 
-  .growth-step-row {
-    display: flex;
-    align-items: center;
+  .growth-step-circle {
     position: absolute;
     top: 0;
     left: 206px;
     width: 56px;
-  }
-
-  .growth-step-circle {
-    position: static;
-    flex: 0 0 56px;
-    width: 56px;
     height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .growth-step-dash {
-    display: none;
+  .growth-step-active .growth-step-circle {
+    border-color: var(--accent);
+    background: var(--background-card);
+    color: var(--accent);
   }
 
   .growth-step p {
@@ -2019,8 +2398,7 @@ h2 {
     padding: 0;
   }
 
-  .judge-card,
-  .judge-card:nth-child(4) {
+  .judge-card {
     grid-column: auto;
     min-height: 422px;
     padding-bottom: 0;
@@ -2030,32 +2408,15 @@ h2 {
     height: 320px;
   }
 
-  .judge-photo img {
-    width: 140px;
-    height: 140px;
-  }
-
-  .judge-photo-featured img {
-    width: 100%;
-    height: 100%;
-  }
-
-  .judge-photo .button {
-    display: none;
-  }
-
+  /* На тач-устройствах hover не сработает — показываем CTA всегда */
   .judge-photo::after {
-    position: absolute;
-    right: 7px;
-    bottom: 6px;
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    background: rgba(230, 234, 240, 0.04);
-    color: var(--text-primary);
-    content: "→";
-    font-size: 16px;
+    opacity: 1;
+  }
+
+  .judge-photo-cta {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    bottom: 16px;
   }
 
   .judge-card h3 {
@@ -2176,22 +2537,21 @@ h2 {
     padding: 6px 0 0 0;
   }
 
-  .growth-step-row {
+  .growth-step-circle {
     grid-column: 1;
     grid-row: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-left: 44px;
-  }
-
-  .growth-step-circle {
-    flex: 0 0 56px;
     width: 56px;
     height: 56px;
   }
 
-  .growth-step-dash {
-    display: none;
+  .growth-step-active .growth-step-circle {
+    border-color: var(--accent);
+    background: var(--background-card);
+    color: var(--accent);
   }
 
   .growth-step p {

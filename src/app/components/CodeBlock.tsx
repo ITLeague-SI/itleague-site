@@ -90,8 +90,6 @@ export function CodeBlock({
     };
   }, [visible, lines]);
 
-  const totalLines = lines.length;
-
   return (
     <div className={`code-block${visible ? " is-visible" : ""}`} ref={ref}>
       {lines.map(([label, value], i) => {
@@ -102,14 +100,11 @@ export function CodeBlock({
         const showPrefix = Math.min(typed, prefix.length);
         const showValue = Math.max(0, typed - prefix.length);
         const isCurrent = i === state.lineIdx && typed < lineLen;
-        const isLastDone = i === totalLines - 1 && typed >= lineLen;
         return (
           <p key={label}>
             <span className="code-pink">{prefix.slice(0, showPrefix)}</span>
             <span className={`code-${tone}`}>{value.slice(0, showValue)}</span>
-            {(isCurrent || isLastDone) && (
-              <span aria-hidden="true" className="code-caret" />
-            )}
+            {isCurrent && <span aria-hidden="true" className="code-caret" />}
           </p>
         );
       })}

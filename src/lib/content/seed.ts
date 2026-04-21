@@ -43,16 +43,61 @@ export const seedTestimonials: Testimonial[] = [
 ];
 
 export const seedExperts: Expert[] = [
-  ["Олександр Коваленко", "CTO @ TechCorp", "68577c27-6b21-4a47-8fdb-5a0bba106327"],
-  ["Марина Петренко", "Lead Backend Engineer", "3d3d4756-8326-425b-a0b9-21c641388e5b"],
-  ["Дмитро Савченко", "Principal Architect", "624b50cc-d91c-45d6-aff1-7be00cb97be5"],
-  ["Дмитро Савченко", "Principal Architect", "d013e21c-0445-43ae-b857-8d95729b4d9e"],
-  ["Кирило Редька", "Staff Engineer", "6e603cd0-21b2-4093-b4d9-912dd0154571"],
-].map(([name, role, id], i) => ({
+  {
+    name: "Олена Киричок",
+    role: "Software Engineer · Transcarent",
+    photo_url: "/experts/olena-kyrychok.png",
+    bio: "Full-stack інженерка з фокусом на healthcare-продуктах. Будує інтерфейси та backend-сервіси, які тримають мільйонні навантаження в Transcarent.",
+    achievements:
+      "• Software Engineer @ Transcarent (US healthcare platform)\n• Ex-Senior Developer у Ring Ukraine\n• Ментор у Women Who Code Kyiv\n• Speaker: KyivJS, Web Standards Days",
+  },
+  {
+    name: "Максим Климишин",
+    role: "Founder OSS IQ",
+    photo_url: "/experts/maksym-klymyshyn.png",
+    bio: "Фаундер OSS IQ, ветеран ком’юніті open source в Україні. 15+ років у продуктовій розробці та архітектурі розподілених систем.",
+    achievements:
+      "• Founder & CEO @ OSS IQ\n• Ex-CTO кількох українських SaaS-стартапів\n• Організатор KyivPy, PyCon UA\n• Автор статей і доповідей із Python, Go, системного дизайну",
+  },
+  {
+    name: "Іван Добровольський",
+    role: "Staff Software Engineer @ Walmart Global Tech",
+    photo_url: "/experts/ivan-dobrovolskyi.png",
+    bio: "Staff Software Engineer у Walmart Global Tech. Спеціалізується на high-load сервісах, event-driven архітектурах та e-commerce-платформах.",
+    achievements:
+      "• Staff Engineer @ Walmart Global Tech\n• Досвід на Big Tech: Amazon, EPAM\n• Contributor до open-source (Kafka ecosystem)\n• Tech reviewer на міжнародних конференціях",
+  },
+  {
+    name: "Станіслав Малкін",
+    role: "DevOps @ Flix",
+    photo_url: "/experts/stanislav-malkin.png",
+    bio: "DevOps-інженер у Flix, відповідає за надійність інфраструктури та CI/CD для кількох продуктових команд. Фанат автоматизації і observability.",
+    achievements:
+      "• DevOps @ Flix (транспортно-мобільний сектор ЄС)\n• Побудував pipeline з ~40 мікросервісів у Kubernetes\n• Ex-SRE у Grammarly-like продукті\n• Сертифікований CKA / AWS DevOps Pro",
+  },
+  {
+    name: "Сергій Марковкін",
+    role: "Lead Backend Engineer",
+    photo_url: "/experts/serhii-markovkin.png",
+    bio: "Lead Backend Engineer з фокусом на fintech та billing-системи. Проектує API, які обробляють мільйони транзакцій на добу, без downtime.",
+    achievements:
+      "• Lead Backend Engineer у fintech-продукті Tier-1\n• Архітектор білінгу з 99.99% SLA\n• Автор внутрішнього engineering handbook\n• Ментор 30+ розробників із сеньйор-грейдом",
+  },
+  {
+    name: "Микола Савенко",
+    role: "Principal Architect",
+    photo_url: "/experts/mykola-savenko.png",
+    bio: "Principal Architect із 20-річним досвідом. Проектує продуктові платформи з нуля, допомагає командам переходити з моноліту на мікросервіси.",
+    achievements:
+      "• Principal Architect у великій продуктовій компанії\n• Автор книжки «Backend для дорослих»\n• Член техкомітету UA IT Cluster\n• Консультант для трьох unicorn-компаній",
+  },
+].map((e, i) => ({
   id: `seed-expert-${i}`,
-  name,
-  role,
-  photo_url: asset(id),
+  name: e.name,
+  role: e.role,
+  photo_url: e.photo_url,
+  bio: e.bio,
+  achievements: e.achievements,
   sort_order: i,
   published: true,
   created_at: "",

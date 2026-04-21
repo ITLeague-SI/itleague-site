@@ -35,6 +35,8 @@ export type Expert = {
   name: string;
   role: string | null;
   photo_url: string | null;
+  bio: string | null;
+  achievements: string | null;
   sort_order: number;
   published: boolean;
   created_at: string;
