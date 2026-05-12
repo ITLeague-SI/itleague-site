@@ -2,11 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_COOKIE = "itl_admin";
 
-export function proxy(req: NextRequest) {
+export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (!pathname.startsWith("/admin")) return NextResponse.next();
+
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", pathname);
+  const passthrough = NextResponse.next({
+    request: { headers: requestHeaders },
+  });
+
   if (pathname === "/admin/login" || pathname.startsWith("/admin/login/")) {
-    return NextResponse.next();
+    return passthrough;
   }
 
   const token = req.cookies.get(SESSION_COOKIE)?.value;
@@ -17,12 +24,12 @@ export function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  return NextResponse.next();
+  return passthrough;
 }
 
 function isWellFormed(token: string) {
   const parts = token.split(".");
-  return parts.length === 3 && parts[0] === "v1";
+  return parts.length === 4 && parts[0] === "v2";
 }
 
 export const config = {

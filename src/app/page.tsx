@@ -4,6 +4,7 @@ import { CodeBlock } from "./components/CodeBlock";
 import { ExpertCard } from "./components/ExpertCard";
 import { GrowthSteps } from "./components/GrowthSteps";
 import { KyivClock } from "./components/KyivClock";
+import { TestimonialsCarousel } from "./components/TestimonialsCarousel";
 import {
   loadExperts,
   loadFaqs,
@@ -137,7 +138,6 @@ export default async function Home() {
   const testimonialPhotos = testimonials
     .map((t) => t.photo_url)
     .filter((url): url is string => Boolean(url));
-  const featuredTestimonial = testimonials[0];
 
   return (
     <main className="site">
@@ -177,18 +177,24 @@ export default async function Home() {
             <KyivClock />
           </div>
           <div className="hero-title">
-            <img alt="IT League Backend" className="hero-wordmark" src={assets.wordmark} />
-            <div className="badge">T Title</div>
-            <h1>
-              <span>Система</span>
-              <span>Точність</span>
-              <span>Складність</span>
+            <h1 className="hero-headline">
+              <span className="sr-only">
+                IT League Backend — інженерний спорт для backend-фахівців. Система. Точність. Складність.
+              </span>
+              <img
+                alt=""
+                aria-hidden="true"
+                className="hero-wordmark"
+                src={assets.wordmark}
+              />
+              <span className="hero-tagline" aria-hidden="true">
+                <span>Система</span>
+                <span>Точність</span>
+                <span>Складність</span>
+              </span>
             </h1>
-            <p>
-              В IT-League Backend ти ростеш, коли змагаєшся
-              <br />
-              Тут не вчать — тут перевіряють
-            </p>
+            <p>В IT-League Backend ти ростеш, коли змагаєшся.</p>
+            <p>Тут не вчать — тут перевіряють.</p>
           </div>
           <Gallery photos={heroPhotos} />
           <p className="system-small">{"// System.feed.active"}</p>
@@ -209,7 +215,6 @@ export default async function Home() {
             </div>
           </div>
           <div className="panel illustration-panel">
-            <div className="badge">I Illustration</div>
             <div className="loop">
               {["SOLVE", "RANK", "GROW", "REPEAT"].map((item) => (
                 <span key={item}>{item}</span>
@@ -230,7 +235,6 @@ export default async function Home() {
           Це — ліга
         </h2>
         <div className="feature-wrap">
-          <div className="badge">F Feature-cards</div>
           <div className="feature-grid">
             {features.map((feature, index) => (
               <article className={index === 0 ? "feature-card active" : "feature-card"} key={feature}>
@@ -343,10 +347,9 @@ export default async function Home() {
       </Shell>
 
       <Shell className="founders">
-        <CodeBlock lines={[["System origin", "competitive practice"], ["Experience", "proven"], ["RIterations", "multiple seasons"]]} />
+        <CodeBlock lines={[["System origin", "competitive practice"], ["Experience", "proven"], ["Iterations", "multiple seasons"]]} />
         <div className="founders-card">
           <h2>Засновники IT-League</h2>
-          <div className="badge">F Founders</div>
           <div className="founder-photos">
             {assets.founders.map((photo) => (
               <img alt="" key={photo} src={photo} />
@@ -379,29 +382,15 @@ export default async function Home() {
         {testimonialPhotos.length > 0 && (
           <Gallery photos={testimonialPhotos} double />
         )}
-        {featuredTestimonial && (
-          <div className="quote">
-            <button aria-label="Попередній відгук">‹</button>
-            <blockquote>
-              &quot;{featuredTestimonial.quote}&quot;
-              <cite>
-                <strong>{featuredTestimonial.author_name}</strong>
-                {featuredTestimonial.author_role && (
-                  <span>{featuredTestimonial.author_role}</span>
-                )}
-              </cite>
-            </blockquote>
-            <button aria-label="Наступний відгук">›</button>
-          </div>
-        )}
+        <TestimonialsCarousel items={testimonials} />
       </Shell>
 
       <Shell id="faq" className="faq-section">
         <CodeBlock lines={[["System clarity", "required"], ["Ambiguity", "reduced"], ["Rules", "transparent"]]} />
         <h2>Є питання</h2>
         <div className="faq-list">
-          {faqs.map((faq) => (
-            <details key={faq.id} open={Boolean(faq.answer)}>
+          {faqs.map((faq, index) => (
+            <details key={faq.id} open={index === 0}>
               <summary>{faq.question}</summary>
               {faq.answer && <p>{faq.answer}</p>}
             </details>

@@ -2,9 +2,55 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Tektur } from "next/font/google";
 import "./globals.css";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://itleague.example.com";
+
 export const metadata: Metadata = {
-  title: "IT League",
-  description: "Landing page for the IT League project.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "IT League Backend — інженерний спорт для backend-фахівців",
+    template: "%s · IT League Backend",
+  },
+  description:
+    "IT League Backend — система турнірів, рейтингів і сезонів для backend-інженерів. Не лекції, а перевірка скілів у змаганнях з оцінкою від практикуючих експертів.",
+  keywords: [
+    "IT League",
+    "backend",
+    "інженерний спорт",
+    "змагання програмістів",
+    "Україна",
+    "backend developer",
+    "практика програмування",
+  ],
+  authors: [{ name: "IT League" }],
+  openGraph: {
+    type: "website",
+    locale: "uk_UA",
+    url: siteUrl,
+    siteName: "IT League Backend",
+    title: "IT League Backend — інженерний спорт для backend-фахівців",
+    description:
+      "Система турнірів, рейтингів і сезонів. Тут зростають через змагання, а не лекції.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IT League Backend",
+    description:
+      "Інженерний спорт для backend-фахівців. Тут не вчать — тут перевіряють.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
 };
 
 const inter = Inter({
