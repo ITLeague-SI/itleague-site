@@ -1,9 +1,8 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
 import { useState } from "react";
 import type { Expert } from "@/lib/supabase/types";
+import { AssetImage } from "./AssetImage";
 import { ExpertModal } from "./ExpertModal";
 
 type Props = {
@@ -23,7 +22,13 @@ export function ExpertCard({ expert }: Props) {
         aria-label={`Детальніше про ${expert.name}`}
       >
         <div className="judge-photo">
-          {expert.photo_url && <img alt={expert.name} src={expert.photo_url} />}
+          {expert.photo_url && (
+            <AssetImage
+              alt={expert.name}
+              src={expert.photo_url}
+              sizes="(max-width: 768px) 100vw, 400px"
+            />
+          )}
           <span className="judge-photo-cta" aria-hidden="true">
             <span>Детальніше</span>
             <svg

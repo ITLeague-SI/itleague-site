@@ -1,10 +1,9 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Expert } from "@/lib/supabase/types";
+import { AssetImage } from "./AssetImage";
 
 type Props = {
   expert: Expert;
@@ -166,7 +165,11 @@ export function ExpertModal({ expert, onClose }: Props) {
         </button>
         <div className="expert-modal-photo">
           {expert.photo_url ? (
-            <img alt={expert.name} src={expert.photo_url} />
+            <AssetImage
+              alt={expert.name}
+              src={expert.photo_url}
+              sizes="(max-width: 768px) 100vw, 360px"
+            />
           ) : (
             <div className="expert-modal-photo-placeholder" aria-hidden="true" />
           )}

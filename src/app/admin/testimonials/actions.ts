@@ -1,19 +1,17 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth/guard";
+import {
+  createRowWithOptionalPhoto,
+  deleteRowWithPhoto,
+  updateRowWithOptionalPhoto,
+} from "@/lib/admin/crud";
 import { failRedirect } from "@/lib/admin/errors";
-import { getAdminSupabase } from "@/lib/supabase/admin";
-import { removeImage, uploadImage } from "@/lib/supabase/storage";
 
 const SCOPE = "testimonials";
-
-function refresh() {
-  revalidatePath("/");
-  revalidatePath("/admin");
-  revalidatePath("/admin/testimonials");
-}
+const TABLE = "testimonials";
+const LIST_PATH = "/admin/testimonials";
+const REVALIDATE = ["/admin/testimonials"];
 
 type BaseFields = {
   author_name: string;
@@ -35,53 +33,22 @@ function readBase(formData: FormData): BaseFields {
   };
 }
 
-async function photoFromForm(formData: FormData): Promise<string | null> {
-  const file = formData.get("photo");
-  if (file instanceof File && file.size > 0) {
-    return uploadImage("testimonials", file);
-  }
-  return null;
-}
-
 export async function createTestimonialAction(formData: FormData) {
   await requireAdmin("/admin/testimonials/new");
   const base = readBase(formData);
   if (!base.author_name || !base.quote) {
     failRedirect(SCOPE, "/admin/testimonials/new", "missing");
   }
-
-  const supabase = getAdminSupabase();
-  const { data: inserted, error: insertError } = await supabase
-    .from("testimonials")
-    .insert({ ...base, photo_url: null })
-    .select("id")
-    .single();
-  if (insertError || !inserted) {
-    failRedirect(SCOPE, "/admin/testimonials/new", "db", insertError);
-  }
-
-  const file = formData.get("photo");
-  if (file instanceof File && file.size > 0) {
-    let photo_url: string;
-    try {
-      photo_url = await uploadImage("testimonials", file);
-    } catch (e) {
-      await supabase.from("testimonials").delete().eq("id", inserted!.id);
-      failRedirect(SCOPE, "/admin/testimonials/new", "upload", e);
-    }
-    const { error: updateError } = await supabase
-      .from("testimonials")
-      .update({ photo_url: photo_url! })
-      .eq("id", inserted!.id);
-    if (updateError) {
-      await removeImage(photo_url!);
-      await supabase.from("testimonials").delete().eq("id", inserted!.id);
-      failRedirect(SCOPE, "/admin/testimonials/new", "db", updateError);
-    }
-  }
-
-  refresh();
-  redirect("/admin/testimonials");
+  await createRowWithOptionalPhoto({
+    scope: SCOPE,
+    table: TABLE,
+    base,
+    formData,
+    folder: "testimonials",
+    newPath: "/admin/testimonials/new",
+    listPath: LIST_PATH,
+    revalidatePaths: REVALIDATE,
+  });
 }
 
 export async function updateTestimonialAction(id: string, formData: FormData) {
@@ -90,56 +57,28 @@ export async function updateTestimonialAction(id: string, formData: FormData) {
   if (!base.author_name || !base.quote) {
     failRedirect(SCOPE, `/admin/testimonials/${id}`, "missing");
   }
-  const removeCurrent = formData.get("remove_photo") === "on";
-
-  const supabase = getAdminSupabase();
-  const { data: current } = await supabase
-    .from("testimonials")
-    .select("photo_url")
-    .eq("id", id)
-    .maybeSingle();
-
-  let photo_url: string | null = (current?.photo_url as string | null) ?? null;
-
-  try {
-    const uploaded = await photoFromForm(formData);
-    if (uploaded) {
-      if (photo_url) await removeImage(photo_url);
-      photo_url = uploaded;
-    } else if (removeCurrent && photo_url) {
-      await removeImage(photo_url);
-      photo_url = null;
-    }
-  } catch (e) {
-    failRedirect(SCOPE, `/admin/testimonials/${id}`, "upload", e);
-  }
-
-  const { error } = await supabase
-    .from("testimonials")
-    .update({ ...base, photo_url })
-    .eq("id", id);
-  if (error) {
-    failRedirect(SCOPE, `/admin/testimonials/${id}`, "db", error);
-  }
-  refresh();
-  redirect("/admin/testimonials");
+  await updateRowWithOptionalPhoto({
+    scope: SCOPE,
+    table: TABLE,
+    id,
+    base,
+    formData,
+    folder: "testimonials",
+    editPath: `/admin/testimonials/${id}`,
+    listPath: LIST_PATH,
+    revalidatePaths: REVALIDATE,
+  });
 }
 
 export async function deleteTestimonialAction(formData: FormData) {
-  await requireAdmin("/admin/testimonials");
+  await requireAdmin(LIST_PATH);
   const id = String(formData.get("id") ?? "");
-  if (!id) redirect("/admin/testimonials");
-  const supabase = getAdminSupabase();
-  const { data, error } = await supabase
-    .from("testimonials")
-    .delete()
-    .eq("id", id)
-    .select("photo_url")
-    .maybeSingle();
-  if (error) {
-    failRedirect(SCOPE, "/admin/testimonials", "db", error);
-  }
-  await removeImage((data?.photo_url as string | null) ?? null);
-  refresh();
-  redirect("/admin/testimonials");
+  if (!id) failRedirect(SCOPE, LIST_PATH, "missing");
+  await deleteRowWithPhoto({
+    scope: SCOPE,
+    table: TABLE,
+    id,
+    listPath: LIST_PATH,
+    revalidatePaths: REVALIDATE,
+  });
 }

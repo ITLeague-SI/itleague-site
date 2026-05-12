@@ -4,16 +4,26 @@ import type {
   Expert,
   Faq,
   HeroSlide,
+  PricingFeature,
+  PricingTier,
   Testimonial,
 } from "@/lib/supabase/types";
 import {
   seedExperts,
   seedFaqs,
   seedHeroSlides,
+  seedPricingFeatures,
+  seedPricingTiers,
   seedTestimonials,
 } from "./seed";
 
-type TableName = "faqs" | "testimonials" | "hero_slides" | "experts";
+type TableName =
+  | "faqs"
+  | "testimonials"
+  | "hero_slides"
+  | "experts"
+  | "pricing_tiers"
+  | "pricing_features";
 
 async function loadFrom<T>(table: TableName, fallback: T[]): Promise<T[]> {
   const supabase = getPublicSupabase();
@@ -69,4 +79,12 @@ export function loadHeroSlides(): Promise<HeroSlide[]> {
 
 export function loadExperts(): Promise<Expert[]> {
   return loadFrom<Expert>("experts", seedExperts);
+}
+
+export function loadPricingTiers(): Promise<PricingTier[]> {
+  return loadFrom<PricingTier>("pricing_tiers", seedPricingTiers);
+}
+
+export function loadPricingFeatures(): Promise<PricingFeature[]> {
+  return loadFrom<PricingFeature>("pricing_features", seedPricingFeatures);
 }

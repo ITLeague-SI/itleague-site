@@ -6,55 +6,61 @@ import { deleteRowSimple, refreshPages } from "@/lib/admin/crud";
 import { failRedirect } from "@/lib/admin/errors";
 import { getAdminSupabase } from "@/lib/supabase/admin";
 
-const SCOPE = "faqs";
-const TABLE = "faqs";
-const LIST_PATH = "/admin/faqs";
-const REVALIDATE = ["/admin/faqs"];
+const SCOPE = "pricing-features";
+const TABLE = "pricing_features";
+const LIST_PATH = "/admin/pricing-features";
+const REVALIDATE = ["/admin/pricing-features"];
 
 type Payload = {
-  question: string;
-  answer: string;
+  label: string;
+  value_free: string;
+  value_basic: string;
+  value_core: string;
+  value_pro: string;
   sort_order: number;
   published: boolean;
 };
 
 function readPayload(formData: FormData): Payload {
   return {
-    question: String(formData.get("question") ?? "").trim(),
-    answer: String(formData.get("answer") ?? "").trim(),
+    label: String(formData.get("label") ?? "").trim(),
+    value_free: String(formData.get("value_free") ?? ""),
+    value_basic: String(formData.get("value_basic") ?? ""),
+    value_core: String(formData.get("value_core") ?? ""),
+    value_pro: String(formData.get("value_pro") ?? ""),
     sort_order:
       Number.parseInt(String(formData.get("sort_order") ?? "0"), 10) || 0,
     published: formData.get("published") === "on",
   };
 }
 
-export async function createFaqAction(formData: FormData) {
-  await requireAdmin("/admin/faqs");
+export async function createPricingFeatureAction(formData: FormData) {
+  await requireAdmin("/admin/pricing-features/new");
   const payload = readPayload(formData);
-  if (!payload.question || !payload.answer) {
-    failRedirect(SCOPE, "/admin/faqs/new", "missing");
+  if (!payload.label) {
+    failRedirect(SCOPE, "/admin/pricing-features/new", "missing");
   }
   const supabase = getAdminSupabase();
   const { error } = await supabase.from(TABLE).insert(payload);
-  if (error) failRedirect(SCOPE, "/admin/faqs/new", "db", error);
+  if (error) failRedirect(SCOPE, "/admin/pricing-features/new", "db", error);
   refreshPages(REVALIDATE);
   redirect(LIST_PATH);
 }
 
-export async function updateFaqAction(id: string, formData: FormData) {
-  await requireAdmin(`/admin/faqs/${id}`);
+export async function updatePricingFeatureAction(id: string, formData: FormData) {
+  await requireAdmin(`/admin/pricing-features/${id}`);
   const payload = readPayload(formData);
-  if (!payload.question || !payload.answer) {
-    failRedirect(SCOPE, `/admin/faqs/${id}`, "missing");
+  if (!payload.label) {
+    failRedirect(SCOPE, `/admin/pricing-features/${id}`, "missing");
   }
   const supabase = getAdminSupabase();
   const { error } = await supabase.from(TABLE).update(payload).eq("id", id);
-  if (error) failRedirect(SCOPE, `/admin/faqs/${id}`, "db", error);
+  if (error) failRedirect(SCOPE, `/admin/pricing-features/${id}`, "db", error);
   refreshPages(REVALIDATE);
   redirect(LIST_PATH);
 }
 
-export async function deleteFaqAction(formData: FormData) {
+export async function deletePricingFeatureAction(formData: FormData) {
   await requireAdmin(LIST_PATH);
   const id = String(formData.get("id") ?? "");
   if (!id) failRedirect(SCOPE, LIST_PATH, "missing");

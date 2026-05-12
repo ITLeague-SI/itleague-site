@@ -1,5 +1,12 @@
 import { figmaAsset as asset } from "@/lib/figma-asset";
-import type { Expert, Faq, HeroSlide, Testimonial } from "@/lib/supabase/types";
+import type {
+  Expert,
+  Faq,
+  HeroSlide,
+  PricingFeature,
+  PricingTier,
+  Testimonial,
+} from "@/lib/supabase/types";
 
 export const seedHeroSlides: HeroSlide[] = [
   "f03350a9-ad27-4d27-a1ee-74ee0b2adfdb",
@@ -117,6 +124,88 @@ export const seedFaqs: Faq[] = [
   id: `seed-faq-${i}`,
   question: f.question,
   answer: f.answer,
+  sort_order: i,
+  published: true,
+  created_at: "",
+  updated_at: "",
+}));
+
+export const seedPricingTiers: PricingTier[] = [
+  {
+    name: "Free trial",
+    price: "Безкоштовно",
+    period: "",
+    description_top: "Для старту та знайомства",
+    description_bottom: "з системою",
+    cta_label: "Обрати free trial",
+  },
+  {
+    name: "Basic",
+    price: "₴1.900",
+    period: "/3 міс",
+    description_top: "Для старту та знайомства",
+    description_bottom: "з системою",
+    cta_label: "Обрати basic",
+  },
+  {
+    name: "Core",
+    price: "₴5.500",
+    period: "/3 міс",
+    description_top: "Для активного росту",
+    description_bottom: "та змагань",
+    cta_label: "Обрати core",
+  },
+  {
+    name: "Pro",
+    price: "₴19.900",
+    period: "/3 міс",
+    description_top: "Максимальні можливості",
+    description_bottom: "для професіоналів",
+    cta_label: "Обрати pro",
+  },
+].map((t, i) => ({
+  id: `seed-tier-${i}`,
+  ...t,
+  sort_order: i,
+  published: true,
+  created_at: "",
+  updated_at: "",
+}));
+
+export const seedPricingFeatures: PricingFeature[] = [
+  ["Доступ до контенту", "частково", "✅", "✅", "✅"],
+  ["Тренувальні турніри", "3", "9", "9", "9"],
+  ["Рейтингові турніри", "1", "3", "3", "3"],
+  ["Оцінка журі", "❌", "❌", "✅", "✅\nпріоритет"],
+  ["Сезонні досягнення", "❌", "✅", "✅", "✅"],
+  ["Промо робіт у соцмережах", "❌", "✅", "✅\nтопи", "✅\nпріоритет"],
+  [
+    "Доступ до ком'юніті",
+    "обмежений\n(доступ до частини контенту)",
+    "✅\n(можна спілкуватися, писати, обговорювати)",
+    "✅\n(повний доступ + участь у щомісячних фідбек-сесіях)",
+    "✅ VIP\n(закриті чати з менторами, пріоритет у Q&A, активності)",
+  ],
+  ["Живі трансляції із розбором робіт", "❌", "✅\n(лише спостерігач)", "✅", "✅"],
+  ["Щомісячна загальна фідбек-сесія з експертами", "❌", "❌", "✅", "✅"],
+  ["Персональний review коду (архітектура + performance)", "❌", "❌", "❌", "🔥\nповний 1:1 review"],
+  ["1:1 менторські сесії", "❌", "❌", "❌", "✅"],
+  ["Early access до наступного сезону", "❌", "❌", "❌", "✅"],
+  ["Переваги у викликах від компаній", "❌", "❌", "❌", "✅"],
+  [
+    "Сертифікат",
+    "❌",
+    "season pass",
+    "учасник / топ-10\n→ із балами та місцем у рейтингу",
+    "PRO\n+ рекомендація*",
+  ],
+].map(([label, value_free, value_basic, value_core, value_pro], i) => ({
+  id: `seed-feature-${i}`,
+  label,
+  value_free,
+  value_basic,
+  value_core,
+  value_pro,
   sort_order: i,
   published: true,
   created_at: "",

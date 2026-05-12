@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/guard";
 import { getAdminSupabase } from "@/lib/supabase/admin";
@@ -62,8 +63,13 @@ export default async function HeroSlidesPage({ searchParams }: Props) {
         <ul className="admin-grid">
           {items.map((item) => (
             <li key={item.id} className="admin-card-media">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.photo_url} alt={item.alt ?? ""} />
+              <Image
+                src={item.photo_url}
+                alt={item.alt ?? ""}
+                width={300}
+                height={225}
+                sizes="(max-width: 768px) 100vw, 300px"
+              />
               <div className="admin-card-meta">
                 <div className="admin-list-title">
                   {item.alt || "Без описания"}

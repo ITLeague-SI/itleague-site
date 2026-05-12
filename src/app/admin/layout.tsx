@@ -10,6 +10,8 @@ const NAV: Array<{ href: string; label: string }> = [
   { href: "/admin/testimonials", label: "Отзывы" },
   { href: "/admin/hero-slides", label: "Слайдер" },
   { href: "/admin/experts", label: "Эксперты" },
+  { href: "/admin/pricing-tiers", label: "Тарифы" },
+  { href: "/admin/pricing-features", label: "Фичи тарифов" },
 ];
 
 function isLoginPath(pathname: string | null) {

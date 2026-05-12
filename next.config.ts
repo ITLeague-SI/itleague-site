@@ -59,11 +59,27 @@ const allowedOrigins = (process.env.SERVER_ACTIONS_ALLOWED_ORIGINS || "")
   .map((s) => s.trim())
   .filter(Boolean);
 
+const remoteImagePatterns: NonNullable<
+  NonNullable<NextConfig["images"]>["remotePatterns"]
+> = [
+  { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/**" },
+];
+if (supabaseHost && !supabaseHost.endsWith(".supabase.co")) {
+  remoteImagePatterns.push({
+    protocol: "https",
+    hostname: supabaseHost,
+    pathname: "/storage/**",
+  });
+}
+
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       allowedOrigins,
     },
+  },
+  images: {
+    remotePatterns: remoteImagePatterns,
   },
   async headers() {
     return [

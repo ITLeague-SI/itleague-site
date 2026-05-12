@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { HeroSlide } from "@/lib/supabase/types";
 import { adminErrorMessage } from "@/lib/admin/error-messages";
@@ -33,8 +34,7 @@ export function HeroSlideForm({
       </label>
       {initial?.photo_url && (
         <div className="admin-form-preview">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={initial.photo_url} alt="" />
+          <Image src={initial.photo_url} alt="" width={220} height={180} />
         </div>
       )}
 

@@ -1,6 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
-
 import { figmaAsset as asset } from "@/lib/figma-asset";
+import {
+  loadExperts,
+  loadFaqs,
+  loadHeroSlides,
+  loadPricingFeatures,
+  loadPricingTiers,
+  loadTestimonials,
+} from "@/lib/content/loader";
+import { AssetImage } from "./components/AssetImage";
 import { CodeBlock } from "./components/CodeBlock";
 import { ExpertCard } from "./components/ExpertCard";
 import { GrowthSteps } from "./components/GrowthSteps";
@@ -14,12 +21,6 @@ const navItems = [
   { href: "#judges", label: "Судді" },
   { href: "#faq", label: "FAQ" },
 ];
-import {
-  loadExperts,
-  loadFaqs,
-  loadHeroSlides,
-  loadTestimonials,
-} from "@/lib/content/loader";
 
 const assets = {
   logo: asset("cbf7e2a1-ea71-4cfd-8269-c8cfb9f87010"),
@@ -53,30 +54,6 @@ const levels = [
   ["03 Level", "Senior", "Контролюй складність", "і доводь рівень", 3],
 ] as const;
 
-const tariffs = [
-  ["Free trial", "Безкоштовно", "", "Для старту та знайомства", "з системою", "Обрати free trial"],
-  ["Basic", "₴1.900", "/3 міс", "Для старту та знайомства", "з системою", "Обрати basic"],
-  ["Core", "₴5.500", "/3 міс", "Для активного росту", "та змагань", "Обрати core"],
-  ["Pro", "₴19.900", "/3 міс", "Максимальні можливості", "для професіоналів", "Обрати pro"],
-] as const;
-
-const comparison = [
-  ["Доступ до контенту", "частково", "✅", "✅", "✅"],
-  ["Тренувальні турніри", "3", "9", "9", "9"],
-  ["Рейтингові турніри", "1", "3", "3", "3"],
-  ["Оцінка журі", "❌", "❌", "✅", "✅\nпріоритет"],
-  ["Сезонні досягнення", "❌", "✅", "✅", "✅"],
-  ["Промо робіт у соцмережах", "❌", "✅", "✅\nтопи", "✅\nпріоритет"],
-  ["Доступ до ком'юніті", "обмежений\n(доступ до частини контенту)", "✅\n(можна спілкуватися, писати, обговорювати)", "✅\n(повний доступ + участь у щомісячних фідбек-сесіях)", "✅ VIP\n(закриті чати з менторами, пріоритет у Q&A, активності)"],
-  ["Живі трансляції із розбором робіт", "❌", "✅\n(лише спостерігач)", "✅", "✅"],
-  ["Щомісячна загальна фідбек-сесія з експертами", "❌", "❌", "✅", "✅"],
-  ["Персональний review коду (архітектура + performance)", "❌", "❌", "❌", "🔥\nповний 1:1 review"],
-  ["1:1 менторські сесії", "❌", "❌", "❌", "✅"],
-  ["Early access до наступного сезону", "❌", "❌", "❌", "✅"],
-  ["Переваги у викликах від компаній", "❌", "❌", "❌", "✅"],
-  ["Сертифікат", "❌", "season pass", "учасник / топ-10\n→ із балами та місцем у рейтингу", "PRO\n+ рекомендація*"],
-];
-
 function Button({
   children,
   variant = "ghost",
@@ -88,7 +65,12 @@ function Button({
     <a className={`button button-${variant}`} href="#prices">
       <span>{children}</span>
       {variant !== "primary" && (
-        <img alt="" aria-hidden="true" src={variant === "light" ? assets.arrowDark : assets.arrowLight} />
+        <AssetImage
+          ariaHidden
+          width={16}
+          height={16}
+          src={variant === "light" ? assets.arrowDark : assets.arrowLight}
+        />
       )}
     </a>
   );
@@ -116,12 +98,7 @@ function Gallery({ photos, double = false }: { photos: string[]; double?: boolea
       <div className="gallery-row">
         {photos.map((photo, index) => (
           <div className="gallery-photo" key={`${photo}-${index}`}>
-            <img
-              alt=""
-              src={photo}
-              loading="lazy"
-              decoding="async"
-            />
+            <AssetImage src={photo} sizes="(max-width: 768px) 250px, 228px" />
           </div>
         ))}
       </div>
@@ -132,12 +109,7 @@ function Gallery({ photos, double = false }: { photos: string[]; double?: boolea
         >
           {[...photos].reverse().map((photo, index) => (
             <div className="gallery-photo" key={`${photo}-reverse-${index}`}>
-              <img
-                alt=""
-                src={photo}
-                loading="lazy"
-                decoding="async"
-              />
+              <AssetImage src={photo} sizes="(max-width: 768px) 250px, 228px" />
             </div>
           ))}
         </div>
@@ -147,12 +119,15 @@ function Gallery({ photos, double = false }: { photos: string[]; double?: boolea
 }
 
 export default async function Home() {
-  const [heroSlides, testimonials, experts, faqs] = await Promise.all([
-    loadHeroSlides(),
-    loadTestimonials(),
-    loadExperts(),
-    loadFaqs(),
-  ]);
+  const [heroSlides, testimonials, experts, faqs, pricingTiers, pricingFeatures] =
+    await Promise.all([
+      loadHeroSlides(),
+      loadTestimonials(),
+      loadExperts(),
+      loadFaqs(),
+      loadPricingTiers(),
+      loadPricingFeatures(),
+    ]);
 
   const heroPhotos = heroSlides.map((s) => s.photo_url);
   const testimonialPhotos = testimonials
@@ -163,7 +138,7 @@ export default async function Home() {
     <main className="site">
       <header className="header">
         <a className="header-logo" href="#">
-          <img alt="IT League" src={assets.logo} />
+          <AssetImage src={assets.logo} alt="IT League" width={154} height={24} priority />
           <span>Backend</span>
         </a>
         <nav className="nav" aria-label="Основна навігація">
@@ -176,7 +151,7 @@ export default async function Home() {
         <MobileMenu items={navItems} />
         <a className="header-cta" href="#prices">
           <span>Стати учасником</span>
-          <img alt="" aria-hidden="true" src={assets.arrowDark} />
+          <AssetImage ariaHidden src={assets.arrowDark} width={16} height={16} />
         </a>
       </header>
 
@@ -191,11 +166,13 @@ export default async function Home() {
               <span className="sr-only">
                 IT League Backend — інженерний спорт для backend-фахівців. Система. Точність. Складність.
               </span>
-              <img
-                alt=""
-                aria-hidden="true"
+              <AssetImage
+                ariaHidden
                 className="hero-wordmark"
                 src={assets.wordmark}
+                width={243}
+                height={26}
+                priority
               />
               <span className="hero-tagline" aria-hidden="true">
                 <span>Система</span>
@@ -282,7 +259,9 @@ export default async function Home() {
       </Shell>
 
       <section className="mini-cta">
-        <img alt="" aria-hidden="true" src={assets.grid} />
+        {/* Decorative absolute-positioned grid texture; keep raw <img> to preserve absolute inset CSS. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img alt="" aria-hidden="true" src={assets.grid} loading="lazy" decoding="async" />
         <h2>
           Безкоштовно — щоб спробувати
           <br />
@@ -309,21 +288,30 @@ export default async function Home() {
           <CodeBlock tone="blue" lines={[["Access tiers", "available"], ["Core tier", "extended system access"]]} />
           <h2>Обери свій рівень участі</h2>
           <div className="tariffs">
-            {tariffs.map(([name, price, period, line1, line2, cta], index) => (
-              <article className={index === 2 ? "tariff featured" : "tariff"} key={name}>
-                <p className="tariff-name">{name}</p>
+            {pricingTiers.map((tier, index) => (
+              <article
+                className={index === 2 ? "tariff featured" : "tariff"}
+                key={tier.id}
+              >
+                <p className="tariff-name">{tier.name}</p>
                 <div>
                   <p className="price">
-                    {price}
-                    {period && <span>{period}</span>}
+                    {tier.price}
+                    {tier.period && <span>{tier.period}</span>}
                   </p>
                   <p className="tariff-description">
-                    {line1}
-                    <br />
-                    {line2}
+                    {tier.description_top}
+                    {tier.description_bottom && (
+                      <>
+                        <br />
+                        {tier.description_bottom}
+                      </>
+                    )}
                   </p>
                 </div>
-                <Button variant={index === 2 ? "light" : "ghost"}>{cta}</Button>
+                <Button variant={index === 2 ? "light" : "ghost"}>
+                  {tier.cta_label}
+                </Button>
               </article>
             ))}
           </div>
@@ -333,17 +321,29 @@ export default async function Home() {
                 <div key={cell}>{cell}</div>
               ))}
             </div>
-            {comparison.map((row) => (
-              <div className="comparison-row" key={row[0]}>
-                {row.map((cell, index) => (
-                  <div className={index === 3 ? "core-cell" : ""} key={`${row[0]}-${index}`}>
-                    {cell.split("\n").map((line) => (
-                      <span key={line}>{line}</span>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            ))}
+            {pricingFeatures.map((feature) => {
+              const cells: Array<{ key: string; value: string; core: boolean }> = [
+                { key: "label", value: feature.label, core: false },
+                { key: "free", value: feature.value_free, core: false },
+                { key: "basic", value: feature.value_basic, core: false },
+                { key: "core", value: feature.value_core, core: true },
+                { key: "pro", value: feature.value_pro, core: false },
+              ];
+              return (
+                <div className="comparison-row" key={feature.id}>
+                  {cells.map((cell) => (
+                    <div
+                      key={cell.key}
+                      className={cell.core ? "core-cell" : ""}
+                    >
+                      {cell.value.split("\n").map((line, i) => (
+                        <span key={i}>{line}</span>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -362,7 +362,13 @@ export default async function Home() {
           <h2>Засновники IT-League</h2>
           <div className="founder-photos">
             {assets.founders.map((photo) => (
-              <img alt="" key={photo} src={photo} />
+              <div className="founder-photo" key={photo}>
+                <AssetImage
+                  ariaHidden
+                  src={photo}
+                  sizes="(max-width: 768px) 50vw, 320px"
+                />
+              </div>
             ))}
             <span>&amp;</span>
           </div>
@@ -409,7 +415,9 @@ export default async function Home() {
       </Shell>
 
       <section className="final-cta">
-        <img alt="" aria-hidden="true" className="final-grid" src={assets.ctaGrid} />
+        {/* Decorative absolute-positioned grid texture; keep raw <img> to preserve absolute inset CSS. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img alt="" aria-hidden="true" className="final-grid" src={assets.ctaGrid} loading="lazy" decoding="async" />
         <div>
           <h2>Вхід у інженерну лігу починається тут</h2>
           <p>
@@ -422,21 +430,27 @@ export default async function Home() {
             <Button>Спробувати безкоштовно</Button>
           </div>
         </div>
-        <img alt="" aria-hidden="true" className="cup" src={assets.cup} />
+        <AssetImage
+          ariaHidden
+          className="cup"
+          src={assets.cup}
+          width={434}
+          height={447}
+        />
       </section>
 
       <footer className="footer">
         <div className="footer-top">
           <div className="footer-logo">
-            <img alt="IT League" src={assets.footerLogo} />
+            <AssetImage src={assets.footerLogo} alt="IT League" width={154} height={24} />
             <span>Backend</span>
           </div>
           <div className="contacts">
             <a aria-label="Instagram" href="#">
-              <img alt="" src={assets.instagram} />
+              <AssetImage ariaHidden src={assets.instagram} width={24} height={24} />
             </a>
             <a aria-label="Email" href="mailto:hello@it-league.ua">
-              <img alt="" src={assets.email} />
+              <AssetImage ariaHidden src={assets.email} width={24} height={24} />
             </a>
           </div>
         </div>
