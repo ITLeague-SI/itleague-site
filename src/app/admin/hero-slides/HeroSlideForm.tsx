@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { HeroSlide } from "@/lib/supabase/types";
+import { adminErrorMessage } from "@/lib/admin/error-messages";
 import { SubmitButton } from "../_components/SubmitButton";
 
 type Props = {
@@ -67,7 +68,7 @@ export function HeroSlideForm({
         </label>
       </div>
 
-      {error && <p className="admin-alert">{decodeURIComponent(error)}</p>}
+      {error && <p className="admin-alert">{adminErrorMessage(error)}</p>}
 
       <div className="admin-form-actions">
         <Link href="/admin/hero-slides" className="admin-btn">

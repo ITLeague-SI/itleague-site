@@ -1,6 +1,5 @@
+import { figmaAsset as asset } from "@/lib/figma-asset";
 import type { Expert, Faq, HeroSlide, Testimonial } from "@/lib/supabase/types";
-
-const asset = (id: string) => `/api/figma-assets/${id}`;
 
 export const seedHeroSlides: HeroSlide[] = [
   "f03350a9-ad27-4d27-a1ee-74ee0b2adfdb",

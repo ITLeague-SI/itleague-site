@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Expert } from "@/lib/supabase/types";
+import { adminErrorMessage } from "@/lib/admin/error-messages";
 import { SubmitButton } from "../_components/SubmitButton";
 
 type Props = {
@@ -78,7 +79,7 @@ export function ExpertForm({
         </label>
       </div>
 
-      {error && <p className="admin-alert">{decodeURIComponent(error)}</p>}
+      {error && <p className="admin-alert">{adminErrorMessage(error)}</p>}
 
       <div className="admin-form-actions">
         <Link href="/admin/experts" className="admin-btn">

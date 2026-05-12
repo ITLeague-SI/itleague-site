@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Faq } from "@/lib/supabase/types";
+import { adminErrorMessage } from "@/lib/admin/error-messages";
 import { SubmitButton } from "../_components/SubmitButton";
 
 type Props = {
@@ -54,7 +55,7 @@ export function FaqForm({ action, initial, error, submitLabel }: Props) {
         </label>
       </div>
 
-      {error && <p className="admin-alert">{decodeURIComponent(error)}</p>}
+      {error && <p className="admin-alert">{adminErrorMessage(error)}</p>}
 
       <div className="admin-form-actions">
         <Link href="/admin/faqs" className="admin-btn">

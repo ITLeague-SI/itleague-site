@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
+import { figmaAsset as asset } from "@/lib/figma-asset";
 import { CodeBlock } from "./components/CodeBlock";
 import { ExpertCard } from "./components/ExpertCard";
 import { GrowthSteps } from "./components/GrowthSteps";
@@ -19,8 +20,6 @@ import {
   loadHeroSlides,
   loadTestimonials,
 } from "@/lib/content/loader";
-
-const asset = (id: string) => `/api/figma-assets/${id}`;
 
 const assets = {
   logo: asset("cbf7e2a1-ea71-4cfd-8269-c8cfb9f87010"),
@@ -117,15 +116,28 @@ function Gallery({ photos, double = false }: { photos: string[]; double?: boolea
       <div className="gallery-row">
         {photos.map((photo, index) => (
           <div className="gallery-photo" key={`${photo}-${index}`}>
-            <img alt="" src={photo} />
+            <img
+              alt=""
+              src={photo}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         ))}
       </div>
       {double && (
-        <div className="gallery-row gallery-row-reverse">
+        <div
+          className="gallery-row gallery-row-reverse"
+          aria-hidden="true"
+        >
           {[...photos].reverse().map((photo, index) => (
             <div className="gallery-photo" key={`${photo}-reverse-${index}`}>
-              <img alt="" src={photo} />
+              <img
+                alt=""
+                src={photo}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
           ))}
         </div>

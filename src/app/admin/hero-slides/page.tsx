@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/auth/guard";
 import { getAdminSupabase } from "@/lib/supabase/admin";
 import { getSupabaseServiceEnv } from "@/lib/supabase/env";
 import type { HeroSlide } from "@/lib/supabase/types";
+import { adminErrorMessage } from "@/lib/admin/error-messages";
 import { DeleteForm } from "../_components/DeleteForm";
 import { deleteHeroSlideAction } from "./actions";
 
@@ -10,12 +11,7 @@ type Props = { searchParams: Promise<{ error?: string }> };
 
 async function loadItems(): Promise<{ items: HeroSlide[]; error: string | null }> {
   const { configured } = getSupabaseServiceEnv();
-  if (!configured) {
-    return {
-      items: [],
-      error: "Supabase не настроен. Укажи переменные окружения в .env.local.",
-    };
-  }
+  if (!configured) return { items: [], error: "no_config" };
   try {
     const supabase = getAdminSupabase();
     const { data, error } = await supabase
@@ -23,10 +19,14 @@ async function loadItems(): Promise<{ items: HeroSlide[]; error: string | null }
       .select("*")
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: false });
-    if (error) return { items: [], error: error.message };
+    if (error) {
+      console.error("[admin/hero-slides:list]", error);
+      return { items: [], error: "db" };
+    }
     return { items: (data ?? []) as HeroSlide[], error: null };
   } catch (e) {
-    return { items: [], error: e instanceof Error ? e.message : "Ошибка" };
+    console.error("[admin/hero-slides:list]", e);
+    return { items: [], error: "db" };
   }
 }
 
@@ -52,7 +52,7 @@ export default async function HeroSlidesPage({ searchParams }: Props) {
 
       {(error || loadError) && (
         <p className="admin-alert">
-          {decodeURIComponent(error ?? loadError ?? "")}
+          {adminErrorMessage(error ?? loadError)}
         </p>
       )}
 
