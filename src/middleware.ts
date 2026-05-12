@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const SESSION_COOKIE = "itl_admin";
+const SESSION_COOKIE =
+  process.env.NODE_ENV === "production" ? "__Host-itl_admin" : "itl_admin";
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

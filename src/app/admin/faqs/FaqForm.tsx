@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Faq } from "@/lib/supabase/types";
+import { SubmitButton } from "../_components/SubmitButton";
 
 type Props = {
   action: (formData: FormData) => void | Promise<void>;
@@ -59,9 +60,7 @@ export function FaqForm({ action, initial, error, submitLabel }: Props) {
         <Link href="/admin/faqs" className="admin-btn">
           Отмена
         </Link>
-        <button type="submit" className="admin-btn admin-btn-primary">
-          {submitLabel}
-        </button>
+        <SubmitButton>{submitLabel}</SubmitButton>
       </div>
     </form>
   );

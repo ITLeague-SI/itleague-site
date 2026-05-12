@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/auth/guard";
 import { getAdminSupabase } from "@/lib/supabase/admin";
 import { getSupabaseServiceEnv } from "@/lib/supabase/env";
 import type { Expert } from "@/lib/supabase/types";
+import { DeleteForm } from "../_components/DeleteForm";
 import { deleteExpertAction } from "./actions";
 
 type Props = { searchParams: Promise<{ error?: string }> };
@@ -84,16 +85,11 @@ export default async function ExpertsPage({ searchParams }: Props) {
                 <Link href={`/admin/experts/${item.id}`} className="admin-btn">
                   Ред.
                 </Link>
-                <form action={deleteExpertAction}>
-                  <input type="hidden" name="id" value={item.id} />
-                  <button
-                    type="submit"
-                    className="admin-btn admin-btn-danger"
-                    formNoValidate
-                  >
-                    Удалить
-                  </button>
-                </form>
+                <DeleteForm
+                  action={deleteExpertAction}
+                  id={item.id}
+                  confirmText={`Удалить эксперта «${item.name}»?`}
+                />
               </div>
             </li>
           ))}

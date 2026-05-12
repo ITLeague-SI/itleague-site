@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { HeroSlide } from "@/lib/supabase/types";
+import { SubmitButton } from "../_components/SubmitButton";
 
 type Props = {
   action: (formData: FormData) => void | Promise<void>;
@@ -72,9 +73,7 @@ export function HeroSlideForm({
         <Link href="/admin/hero-slides" className="admin-btn">
           Отмена
         </Link>
-        <button type="submit" className="admin-btn admin-btn-primary">
-          {submitLabel}
-        </button>
+        <SubmitButton>{submitLabel}</SubmitButton>
       </div>
     </form>
   );

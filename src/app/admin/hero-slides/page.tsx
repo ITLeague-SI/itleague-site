@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/auth/guard";
 import { getAdminSupabase } from "@/lib/supabase/admin";
 import { getSupabaseServiceEnv } from "@/lib/supabase/env";
 import type { HeroSlide } from "@/lib/supabase/types";
+import { DeleteForm } from "../_components/DeleteForm";
 import { deleteHeroSlideAction } from "./actions";
 
 type Props = { searchParams: Promise<{ error?: string }> };
@@ -81,16 +82,11 @@ export default async function HeroSlidesPage({ searchParams }: Props) {
                 >
                   Ред.
                 </Link>
-                <form action={deleteHeroSlideAction}>
-                  <input type="hidden" name="id" value={item.id} />
-                  <button
-                    type="submit"
-                    className="admin-btn admin-btn-danger"
-                    formNoValidate
-                  >
-                    Удалить
-                  </button>
-                </form>
+                <DeleteForm
+                  action={deleteHeroSlideAction}
+                  id={item.id}
+                  confirmText="Удалить слайд из героя?"
+                />
               </div>
             </li>
           ))}

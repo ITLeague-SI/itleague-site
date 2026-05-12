@@ -4,7 +4,15 @@ import { CodeBlock } from "./components/CodeBlock";
 import { ExpertCard } from "./components/ExpertCard";
 import { GrowthSteps } from "./components/GrowthSteps";
 import { KyivClock } from "./components/KyivClock";
+import { MobileMenu } from "./components/MobileMenu";
 import { TestimonialsCarousel } from "./components/TestimonialsCarousel";
+
+const navItems = [
+  { href: "#about", label: "Про лігу" },
+  { href: "#prices", label: "Пакети" },
+  { href: "#judges", label: "Судді" },
+  { href: "#faq", label: "FAQ" },
+];
 import {
   loadExperts,
   loadFaqs,
@@ -142,32 +150,22 @@ export default async function Home() {
   return (
     <main className="site">
       <header className="header">
-        <input className="menu-checkbox" id="site-menu-toggle" type="checkbox" aria-label="Toggle navigation menu" />
         <a className="header-logo" href="#">
           <img alt="IT League" src={assets.logo} />
           <span>Backend</span>
         </a>
         <nav className="nav" aria-label="Основна навігація">
-          <a href="#about">Про лігу</a>
-          <a href="#prices">Пакети</a>
-          <a href="#judges">Судді</a>
-          <a href="#faq">FAQ</a>
+          {navItems.map((item) => (
+            <a key={item.href} href={item.href}>
+              {item.label}
+            </a>
+          ))}
         </nav>
-        <label className="menu-toggle" htmlFor="site-menu-toggle" aria-label="Open menu">
-          <span />
-          <span />
-          <span />
-        </label>
+        <MobileMenu items={navItems} />
         <a className="header-cta" href="#prices">
           <span>Стати учасником</span>
           <img alt="" aria-hidden="true" src={assets.arrowDark} />
         </a>
-        <div className="mobile-nav-panel">
-          <a href="#about">Про лігу</a>
-          <a href="#prices">Пакети</a>
-          <a href="#judges">Судді</a>
-          <a href="#faq">FAQ</a>
-        </div>
       </header>
 
       <section className="hero">

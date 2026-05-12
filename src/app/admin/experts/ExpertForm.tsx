@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Expert } from "@/lib/supabase/types";
+import { SubmitButton } from "../_components/SubmitButton";
 
 type Props = {
   action: (formData: FormData) => void | Promise<void>;
@@ -83,9 +84,7 @@ export function ExpertForm({
         <Link href="/admin/experts" className="admin-btn">
           Отмена
         </Link>
-        <button type="submit" className="admin-btn admin-btn-primary">
-          {submitLabel}
-        </button>
+        <SubmitButton>{submitLabel}</SubmitButton>
       </div>
     </form>
   );

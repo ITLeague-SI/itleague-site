@@ -1,7 +1,8 @@
 import "server-only";
 import crypto from "node:crypto";
 
-const COOKIE_NAME = "itl_admin";
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+const COOKIE_NAME = IS_PRODUCTION ? "__Host-itl_admin" : "itl_admin";
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
 const TOKEN_VERSION = "v2";
 const MIN_SECRET_LENGTH = 32;

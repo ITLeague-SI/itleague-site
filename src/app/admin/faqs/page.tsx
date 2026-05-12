@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/auth/guard";
 import { getAdminSupabase } from "@/lib/supabase/admin";
 import { getSupabaseServiceEnv } from "@/lib/supabase/env";
 import type { Faq } from "@/lib/supabase/types";
+import { DeleteForm } from "../_components/DeleteForm";
 import { deleteFaqAction } from "./actions";
 
 type Props = { searchParams: Promise<{ error?: string }> };
@@ -71,16 +72,11 @@ export default async function FaqsPage({ searchParams }: Props) {
                 <Link href={`/admin/faqs/${item.id}`} className="admin-btn">
                   Ред.
                 </Link>
-                <form action={deleteFaqAction}>
-                  <input type="hidden" name="id" value={item.id} />
-                  <button
-                    type="submit"
-                    className="admin-btn admin-btn-danger"
-                    formNoValidate
-                  >
-                    Удалить
-                  </button>
-                </form>
+                <DeleteForm
+                  action={deleteFaqAction}
+                  id={item.id}
+                  confirmText={`Удалить вопрос «${item.question}»?`}
+                />
               </div>
             </li>
           ))}

@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/auth/guard";
 import { getAdminSupabase } from "@/lib/supabase/admin";
 import { getSupabaseServiceEnv } from "@/lib/supabase/env";
 import type { Testimonial } from "@/lib/supabase/types";
+import { DeleteForm } from "../_components/DeleteForm";
 import { deleteTestimonialAction } from "./actions";
 
 type Props = { searchParams: Promise<{ error?: string }> };
@@ -91,16 +92,11 @@ export default async function TestimonialsPage({ searchParams }: Props) {
                 >
                   Ред.
                 </Link>
-                <form action={deleteTestimonialAction}>
-                  <input type="hidden" name="id" value={item.id} />
-                  <button
-                    type="submit"
-                    className="admin-btn admin-btn-danger"
-                    formNoValidate
-                  >
-                    Удалить
-                  </button>
-                </form>
+                <DeleteForm
+                  action={deleteTestimonialAction}
+                  id={item.id}
+                  confirmText={`Удалить отзыв «${item.author_name}»?`}
+                />
               </div>
             </li>
           ))}
