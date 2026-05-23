@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Expert } from "@/lib/supabase/types";
+import type { Expert } from "@/lib/content";
 import { AssetImage } from "./AssetImage";
 import { ExpertModal } from "./ExpertModal";
 

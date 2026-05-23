@@ -1,54 +1,88 @@
 import { figmaAsset as asset } from "@/lib/figma-asset";
-import type {
-  Expert,
-  Faq,
-  HeroSlide,
-  PricingFeature,
-  PricingTier,
-  Testimonial,
-} from "@/lib/supabase/types";
 
-export const seedHeroSlides: HeroSlide[] = [
+export type Faq = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
+export type Testimonial = {
+  id: string;
+  author_name: string;
+  author_role: string | null;
+  quote: string;
+  photo_url: string | null;
+};
+
+export type HeroSlide = {
+  id: string;
+  photo_url: string;
+  alt: string | null;
+};
+
+export type Expert = {
+  id: string;
+  name: string;
+  role: string | null;
+  photo_url: string | null;
+  bio: string | null;
+  achievements: string | null;
+};
+
+export type PricingTier = {
+  id: string;
+  name: string;
+  price: string;
+  period: string;
+  description_top: string;
+  description_bottom: string;
+  cta_label: string;
+};
+
+export type PricingFeature = {
+  id: string;
+  label: string;
+  value_free: string;
+  value_basic: string;
+  value_core: string;
+  value_pro: string;
+};
+
+export const heroSlides: HeroSlide[] = [
   "f03350a9-ad27-4d27-a1ee-74ee0b2adfdb",
   "d23d6728-2dbf-40eb-970b-c76d515a5aa2",
   "f30de078-11d3-463f-a4b0-ab5580a28fa3",
   "906813e9-ef0c-49d0-b1b2-b9874797fab1",
   "15e00f3d-6947-4c86-837b-15ad8111b2ba",
 ].map((id, i) => ({
-  id: `seed-hero-${i}`,
+  id: `hero-${i}`,
   photo_url: asset(id),
   alt: null,
-  sort_order: i,
-  published: true,
-  created_at: "",
-  updated_at: "",
 }));
 
-export const seedTestimonialPhotos: string[] = [
+const testimonialPhotoIds = [
   "bdcd73ca-6a45-4c0f-9ac9-48e3d3e3b057",
   "b5fc5c9e-2a19-4b2c-87b4-1fe6f6d7a2ad",
   "f61db793-cf91-4e65-8397-35f0466cc29a",
   "4456726e-c080-4afc-818d-9dfac0f44135",
   "037c73f4-28cf-4ca0-9c2c-c0efde571a1a",
   "cdf2ee1c-4b2e-40d8-b501-ead5ac46d5f6",
-].map(asset);
+];
 
-export const seedTestimonials: Testimonial[] = [
+export const testimonialPhotos: string[] = testimonialPhotoIds.map(asset);
+
+export const testimonials: Testimonial[] = [
   {
-    id: "seed-t-1",
+    id: "t-1",
     author_name: "Віктор П.",
     author_role: "Junior Developer",
     quote:
       "Формат ліги ідеальний для тих, хто хоче постійно прогресувати. Нарешті зрозумів, де мої прогалини. Дякую за чесну оцінку.",
-    photo_url: seedTestimonialPhotos[0],
-    sort_order: 0,
-    published: true,
-    created_at: "",
-    updated_at: "",
+    photo_url: testimonialPhotos[0],
   },
 ];
 
-export const seedExperts: Expert[] = [
+export const experts: Expert[] = [
   {
     name: "Олена Киричок",
     role: "Software Engineer · Transcarent",
@@ -98,19 +132,11 @@ export const seedExperts: Expert[] = [
       "• Principal Architect у великій продуктовій компанії\n• Автор книжки «Backend для дорослих»\n• Член техкомітету UA IT Cluster\n• Консультант для трьох unicorn-компаній",
   },
 ].map((e, i) => ({
-  id: `seed-expert-${i}`,
-  name: e.name,
-  role: e.role,
-  photo_url: e.photo_url,
-  bio: e.bio,
-  achievements: e.achievements,
-  sort_order: i,
-  published: true,
-  created_at: "",
-  updated_at: "",
+  id: `expert-${i}`,
+  ...e,
 }));
 
-export const seedFaqs: Faq[] = [
+export const faqs: Faq[] = [
   { question: "Це навчання чи змагання?", answer: "" },
   {
     question: "Чи можна почати безкоштовно?",
@@ -121,16 +147,11 @@ export const seedFaqs: Faq[] = [
   { question: "Хто перевіряє роботи?", answer: "" },
   { question: "Чи підходить для Junior?", answer: "" },
 ].map((f, i) => ({
-  id: `seed-faq-${i}`,
-  question: f.question,
-  answer: f.answer,
-  sort_order: i,
-  published: true,
-  created_at: "",
-  updated_at: "",
+  id: `faq-${i}`,
+  ...f,
 }));
 
-export const seedPricingTiers: PricingTier[] = [
+export const pricingTiers: PricingTier[] = [
   {
     name: "Free trial",
     price: "Безкоштовно",
@@ -164,15 +185,11 @@ export const seedPricingTiers: PricingTier[] = [
     cta_label: "Обрати pro",
   },
 ].map((t, i) => ({
-  id: `seed-tier-${i}`,
+  id: `tier-${i}`,
   ...t,
-  sort_order: i,
-  published: true,
-  created_at: "",
-  updated_at: "",
 }));
 
-export const seedPricingFeatures: PricingFeature[] = [
+export const pricingFeatures: PricingFeature[] = [
   ["Доступ до контенту", "частково", "✅", "✅", "✅"],
   ["Тренувальні турніри", "3", "9", "9", "9"],
   ["Рейтингові турніри", "1", "3", "3", "3"],
@@ -200,14 +217,10 @@ export const seedPricingFeatures: PricingFeature[] = [
     "PRO\n+ рекомендація*",
   ],
 ].map(([label, value_free, value_basic, value_core, value_pro], i) => ({
-  id: `seed-feature-${i}`,
+  id: `feature-${i}`,
   label,
   value_free,
   value_basic,
   value_core,
   value_pro,
-  sort_order: i,
-  published: true,
-  created_at: "",
-  updated_at: "",
 }));

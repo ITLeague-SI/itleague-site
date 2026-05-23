@@ -1,12 +1,12 @@
-import { figmaAsset as asset } from "@/lib/figma-asset";
 import {
-  loadExperts,
-  loadFaqs,
-  loadHeroSlides,
-  loadPricingFeatures,
-  loadPricingTiers,
-  loadTestimonials,
-} from "@/lib/content/loader";
+  experts,
+  faqs,
+  heroSlides,
+  pricingFeatures,
+  pricingTiers,
+  testimonials,
+} from "@/lib/content";
+import { figmaAsset as asset } from "@/lib/figma-asset";
 import { AssetImage } from "./components/AssetImage";
 import { CodeBlock } from "./components/CodeBlock";
 import { ExpertCard } from "./components/ExpertCard";
@@ -118,17 +118,7 @@ function Gallery({ photos, double = false }: { photos: string[]; double?: boolea
   );
 }
 
-export default async function Home() {
-  const [heroSlides, testimonials, experts, faqs, pricingTiers, pricingFeatures] =
-    await Promise.all([
-      loadHeroSlides(),
-      loadTestimonials(),
-      loadExperts(),
-      loadFaqs(),
-      loadPricingTiers(),
-      loadPricingFeatures(),
-    ]);
-
+export default function Home() {
   const heroPhotos = heroSlides.map((s) => s.photo_url);
   const testimonialPhotos = testimonials
     .map((t) => t.photo_url)

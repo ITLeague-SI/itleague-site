@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import type { Expert } from "@/lib/supabase/types";
+import type { Expert } from "@/lib/content";
 import { AssetImage } from "./AssetImage";
 
 type Props = {

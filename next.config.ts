@@ -2,21 +2,6 @@ import type { NextConfig } from "next";
 
 const isProd = process.env.NODE_ENV === "production";
 
-const supabaseHost = (() => {
-  try {
-    return process.env.NEXT_PUBLIC_SUPABASE_URL
-      ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).host
-      : "";
-  } catch {
-    return "";
-  }
-})();
-
-const connectSrc = ["'self'", "https://*.supabase.co", "wss://*.supabase.co"];
-if (supabaseHost && !supabaseHost.endsWith(".supabase.co")) {
-  connectSrc.push(`https://${supabaseHost}`, `wss://${supabaseHost}`);
-}
-
 const cspDirectives = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`,
@@ -24,7 +9,7 @@ const cspDirectives = [
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https:",
   "media-src 'self' blob: https:",
-  `connect-src ${connectSrc.join(" ")}`,
+  "connect-src 'self'",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -54,33 +39,7 @@ if (isProd) {
   });
 }
 
-const allowedOrigins = (process.env.SERVER_ACTIONS_ALLOWED_ORIGINS || "")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
-
-const remoteImagePatterns: NonNullable<
-  NonNullable<NextConfig["images"]>["remotePatterns"]
-> = [
-  { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/**" },
-];
-if (supabaseHost && !supabaseHost.endsWith(".supabase.co")) {
-  remoteImagePatterns.push({
-    protocol: "https",
-    hostname: supabaseHost,
-    pathname: "/storage/**",
-  });
-}
-
 const nextConfig: NextConfig = {
-  experimental: {
-    serverActions: {
-      allowedOrigins,
-    },
-  },
-  images: {
-    remotePatterns: remoteImagePatterns,
-  },
   async headers() {
     return [
       {

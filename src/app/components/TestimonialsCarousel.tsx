@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import type { Testimonial } from "@/lib/supabase/types";
+import type { Testimonial } from "@/lib/content";
 
 type Props = {
   items: Testimonial[];
