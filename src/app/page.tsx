@@ -4,6 +4,7 @@ import {
   heroSlides,
   pricingFeatures,
   pricingTiers,
+  testimonialPhotos,
   testimonials,
 } from "@/lib/content";
 import { figmaAsset as asset } from "@/lib/figma-asset";
@@ -120,9 +121,6 @@ function Gallery({ photos, double = false }: { photos: string[]; double?: boolea
 
 export default function Home() {
   const heroPhotos = heroSlides.map((s) => s.photo_url);
-  const testimonialPhotos = testimonials
-    .map((t) => t.photo_url)
-    .filter((url): url is string => Boolean(url));
 
   return (
     <main className="site">
