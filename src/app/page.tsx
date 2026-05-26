@@ -212,8 +212,8 @@ export default function Home() {
         </h2>
         <div className="feature-wrap">
           <div className="feature-grid">
-            {features.map((feature, index) => (
-              <article className={index === 0 ? "feature-card active" : "feature-card"} key={feature.label}>
+            {features.map((feature) => (
+              <article className="feature-card" key={feature.label}>
                 <AssetImage
                   src={feature.icon}
                   alt=""
