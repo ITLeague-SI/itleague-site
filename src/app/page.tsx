@@ -242,11 +242,24 @@ export default function Home() {
                     fill="none"
                     aria-hidden="true"
                   >
-                    <path
-                      d="M0.5 0.5 H33.5 L47.5 14.5 V47.5 H0.5 Z"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                    />
+                    {index === 0 ? (
+                      /* Topmost icon — notched-corner page (Figma "Square" vector). */
+                      <path
+                        d="M0.5 0.5 H33.5 L47.5 14.5 V47.5 H0.5 Z"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      />
+                    ) : (
+                      /* Stacked icons below — plain bordered square. */
+                      <rect
+                        x="0.5"
+                        y="0.5"
+                        width="47"
+                        height="47"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      />
+                    )}
                   </svg>
                 ))}
               </div>
