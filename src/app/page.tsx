@@ -233,7 +233,21 @@ export default function Home() {
             <article className="level" key={level}>
               <div className="level-squares">
                 {Array.from({ length: bars }).map((_, index) => (
-                  <span key={index} />
+                  <svg
+                    key={index}
+                    className="level-square"
+                    width="48"
+                    height="48"
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M0.5 0.5 H33.5 L47.5 14.5 V47.5 H0.5 Z"
+                      stroke="currentColor"
+                      strokeWidth="1"
+                    />
+                  </svg>
                 ))}
               </div>
               <div>
