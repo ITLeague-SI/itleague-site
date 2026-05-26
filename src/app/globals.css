@@ -775,7 +775,9 @@ h2 {
   display: block;
   width: 48px;
   height: 48px;
-  color: var(--icons);
+  /* Lighter than --icons (#575757) so the level glyphs read clearly
+     on the dark background. */
+  color: var(--text-secondary);
 }
 
 .level h3,
