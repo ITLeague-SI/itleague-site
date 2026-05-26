@@ -393,6 +393,16 @@ img {
   line-height: 32px;
 }
 
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
 .gallery {
   display: flex;
   flex-direction: column;
@@ -405,11 +415,18 @@ img {
   display: flex;
   gap: 8px;
   min-width: max-content;
+  animation: marquee-left 30s linear infinite;
 }
 
 .gallery-row-reverse {
-  justify-content: flex-end;
-  transform: translateX(-328px);
+  animation: marquee-right 30s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-row,
+  .gallery-row-reverse {
+    animation: none;
+  }
 }
 
 .gallery-photo {

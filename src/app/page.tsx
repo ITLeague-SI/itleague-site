@@ -94,23 +94,24 @@ function Shell({
 }
 
 function Gallery({ photos, double = false }: { photos: string[]; double?: boolean }) {
+  // Duplicate items so the seamless marquee loop works (animate -50% → back to 0)
+  const row1 = [...photos, ...photos];
+  const row2 = [...[...photos].reverse(), ...[...photos].reverse()];
+
   return (
     <div className="gallery">
-      <div className="gallery-row">
-        {photos.map((photo, index) => (
-          <div className="gallery-photo" key={`${photo}-${index}`}>
-            <AssetImage src={photo} sizes="(max-width: 768px) 250px, 228px" />
+      <div className="gallery-row" aria-hidden="true">
+        {row1.map((photo, index) => (
+          <div className="gallery-photo" key={`r1-${photo}-${index}`}>
+            <AssetImage src={photo} sizes="228px" />
           </div>
         ))}
       </div>
       {double && (
-        <div
-          className="gallery-row gallery-row-reverse"
-          aria-hidden="true"
-        >
-          {[...photos].reverse().map((photo, index) => (
-            <div className="gallery-photo" key={`${photo}-reverse-${index}`}>
-              <AssetImage src={photo} sizes="(max-width: 768px) 250px, 228px" />
+        <div className="gallery-row gallery-row-reverse" aria-hidden="true">
+          {row2.map((photo, index) => (
+            <div className="gallery-photo" key={`r2-${photo}-${index}`}>
+              <AssetImage src={photo} sizes="228px" />
             </div>
           ))}
         </div>
