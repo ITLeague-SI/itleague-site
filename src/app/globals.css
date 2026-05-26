@@ -625,13 +625,18 @@ h2 {
   width: 48px;
   height: 48px;
   margin-bottom: 24px;
-  /* SVG icons use currentColor; tint inactive cards to --icons colour */
-  opacity: 0.55;
-  transition: opacity 0.25s ease;
+  /* SVG icons carry baked-in #6EA8FF stroke. Desaturate by default so they
+     read as neutral grey; remove filter on hover to reveal the accent blue. */
+  filter: grayscale(1) brightness(0.95);
+  opacity: 0.7;
+  transition:
+    filter 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .feature-card:hover .feature-icon,
 .feature-card:focus-within .feature-icon {
+  filter: none;
   opacity: 1;
 }
 
