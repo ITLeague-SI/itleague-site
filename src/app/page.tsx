@@ -263,7 +263,7 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <div>
+              <div className="level-description">
                 <p className="system-small">{level}</p>
                 <h3>{title}</h3>
                 <p>

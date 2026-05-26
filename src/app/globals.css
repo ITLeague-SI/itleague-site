@@ -742,33 +742,57 @@ h2 {
   padding-left: 40px;
 }
 
+/* Levels row — Figma node 23:234 "Content"
+   flex items-center justify-between (per-level alignment overridden below) */
 .levels {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   padding: 0 40px 116px;
 }
 
+/* Each level — Figma "Level-container"
+   flex gap-32 items-end (items-center for Senior) */
 .level {
-  display: grid;
-  grid-template-columns: 54px 1fr;
+  display: flex;
   gap: 32px;
-  align-items: end;
-  min-height: 278px;
 }
 
+.level:nth-child(1),
+.level:nth-child(2) {
+  align-items: flex-end;
+}
+
+.level:nth-child(3) {
+  align-items: center;
+}
+
+/* Icon column — Figma "Decor-container"
+   - heights: 164 / 218 / 278 per level
+   - icons stack from the TOP with a 116px bottom padding
+   - left border separator (skipped on Junior) */
 .level-squares {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 6px;
-  height: 100%;
-  border-left: 1px solid var(--border-primary);
+  padding-bottom: 116px;
   padding-left: 6px;
+  border-left: 1px solid var(--border-primary);
 }
 
-.level:first-child .level-squares {
+.level:nth-child(1) .level-squares {
+  height: 164px;
   border-left: 0;
+  padding-left: 0;
+}
+
+.level:nth-child(2) .level-squares {
+  height: 218px;
+}
+
+.level:nth-child(3) .level-squares {
+  height: 278px;
 }
 
 .level-square {
@@ -777,6 +801,22 @@ h2 {
   height: 48px;
   /* Lighter than --icons (#575757) so the level glyphs read clearly
      on the dark background. */
+  color: var(--text-secondary);
+}
+
+/* Description column — Figma "Description"
+   w-223, pb-112, gap-54 between label and text-block */
+.level-description {
+  width: 223px;
+  padding-bottom: 112px;
+}
+
+/* Override the global .system-small inside level cards:
+   Figma uses 14/16 here, no left padding. */
+.level-description .system-small {
+  padding-left: 0;
+  font-size: 14px;
+  line-height: 16px;
   color: var(--text-secondary);
 }
 
