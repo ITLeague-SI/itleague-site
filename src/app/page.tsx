@@ -401,7 +401,7 @@ export default function Home() {
         <h2>Є питання</h2>
         <div className="faq-list">
           {faqs.map((faq, index) => (
-            <details key={faq.id} open={index === 0}>
+            <details key={faq.id}>
               <summary>{faq.question}</summary>
               {faq.answer && <p>{faq.answer}</p>}
             </details>

@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { Testimonial } from "@/lib/content";
 import { figmaAsset } from "@/lib/figma-asset";
 
 const ARROW_LEFT  = figmaAsset("e7a8b9c0-carousel-arrow-left");
 const ARROW_RIGHT = figmaAsset("e8b9c0d1-carousel-arrow-right");
+const AUTO_INTERVAL_MS = 5000;
 
 type Props = {
   items: Testimonial[];
@@ -15,6 +16,7 @@ type Props = {
 export function TestimonialsCarousel({ items }: Props) {
   const [index, setIndex] = useState(0);
   const count = items.length;
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const go = useCallback(
     (delta: number) => {
@@ -24,15 +26,31 @@ export function TestimonialsCarousel({ items }: Props) {
     [count],
   );
 
+  // Reset auto-play timer; called on manual navigation too
+  const resetTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (count <= 1) return;
+    timerRef.current = setInterval(() => go(1), AUTO_INTERVAL_MS);
+  }, [count, go]);
+
+  // Start auto-play on mount
+  useEffect(() => {
+    resetTimer();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [resetTimer]);
+
+  // Keyboard navigation
   useEffect(() => {
     if (count <= 1) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") go(-1);
-      else if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft")  { go(-1); resetTimer(); }
+      else if (e.key === "ArrowRight") { go(1);  resetTimer(); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [count, go]);
+  }, [count, go, resetTimer]);
 
   if (count === 0) return null;
   const current = items[Math.min(index, count - 1)];
@@ -50,7 +68,7 @@ export function TestimonialsCarousel({ items }: Props) {
           type="button"
           aria-label="Попередній відгук"
           className="quote-arrow"
-          onClick={() => go(-1)}
+          onClick={() => { go(-1); resetTimer(); }}
         >
           <Image src={ARROW_LEFT} alt="" aria-hidden width={24} height={24} unoptimized />
         </button>
@@ -72,7 +90,7 @@ export function TestimonialsCarousel({ items }: Props) {
           type="button"
           aria-label="Наступний відгук"
           className="quote-arrow"
-          onClick={() => go(1)}
+          onClick={() => { go(1); resetTimer(); }}
         >
           <Image src={ARROW_RIGHT} alt="" aria-hidden width={24} height={24} unoptimized />
         </button>
