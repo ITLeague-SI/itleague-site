@@ -8,6 +8,7 @@ import {
   testimonials,
 } from "@/lib/content";
 import { figmaAsset as asset } from "@/lib/figma-asset";
+import { AboutLoop } from "./components/AboutLoop";
 import { AssetImage } from "./components/AssetImage";
 import { CodeBlock } from "./components/CodeBlock";
 import { ExpertCard } from "./components/ExpertCard";
@@ -31,8 +32,6 @@ const assets = {
   grid: asset("a42716ae-7727-41dd-94af-04459865de42"),
   ctaGrid: asset("03a3c525-90dc-47e4-a9f4-de700c0fe356"),
   cup: asset("d7c294d6-d7bc-49ad-971b-2bf660fe1e85"),
-  loopStairsTop:    asset("a1b2c3d4-about-loop-stairs-top"),
-  loopStairsBottom: asset("a2b3c4d5-about-loop-stairs-bottom"),
   founders: [
     asset("7b4def25-514b-4ce7-9779-c25f7ae4267c"),
     asset("b26efb79-0a06-40d1-9372-e1c46fffb18a"),
@@ -193,29 +192,7 @@ export default function Home() {
             </div>
           </div>
           <div className="panel illustration-panel">
-            <div className="loop">
-              {["SOLVE", "RANK", "GROW", "REPEAT"].map((item) => (
-                <span key={item}>{item}</span>
-              ))}
-              <div className="loop-core" aria-hidden="true">
-                <AssetImage
-                  src={assets.loopStairsBottom}
-                  alt=""
-                  ariaHidden
-                  width={82}
-                  height={86}
-                  className="loop-core-stairs loop-core-stairs-bottom"
-                />
-                <AssetImage
-                  src={assets.loopStairsTop}
-                  alt=""
-                  ariaHidden
-                  width={82}
-                  height={81}
-                  className="loop-core-stairs loop-core-stairs-top"
-                />
-              </div>
-            </div>
+            <AboutLoop />
           </div>
         </div>
       </Shell>

@@ -547,23 +547,29 @@ h2 {
   font-size: 14px;
   font-weight: 200;
   color: var(--text-secondary);
+  transition:
+    border-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.4s ease;
 }
 
-.loop span:first-child {
-  grid-area: 1 / 1;
+.loop span:nth-child(1) { grid-area: 1 / 1; }
+.loop span:nth-child(2) { grid-area: 1 / 3; }
+.loop span:nth-child(3) { grid-area: 3 / 1; }
+.loop span:nth-child(4) { grid-area: 3 / 3; }
+
+/* Active step in the SOLVE → RANK → GROW → REPEAT cycle.
+   Driven by the AboutLoop client component (5s per step). */
+.loop span.loop-step-active {
   border-color: var(--accent);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(110, 168, 255, 0.25);
 }
 
-.loop span:nth-child(2) {
-  grid-area: 1 / 3;
-}
-
-.loop span:nth-child(3) {
-  grid-area: 3 / 1;
-}
-
-.loop span:nth-child(4) {
-  grid-area: 3 / 3;
+@media (prefers-reduced-motion: reduce) {
+  .loop span {
+    transition: none;
+  }
 }
 
 .loop-core {
