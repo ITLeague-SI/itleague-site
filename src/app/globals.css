@@ -1410,8 +1410,9 @@ h2 {
 
 .founder-photos span {
   position: absolute;
-  bottom: 80px;
+  bottom: -28px;           /* centre of the 56 px badge sits on the bottom edge */
   left: 50%;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 56px;
@@ -1423,7 +1424,7 @@ h2 {
 }
 
 .founders-card h3 {
-  margin: -52px 0 8px;
+  margin: 44px 0 8px;      /* clear the badge (28 px below edge) + breathing room */
   font-size: 16px;
   font-weight: 800;
   line-height: 24px;
