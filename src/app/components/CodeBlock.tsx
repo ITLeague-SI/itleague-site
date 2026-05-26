@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type Tone = "green" | "blue" | "neutral";
 
@@ -20,16 +20,17 @@ export function CodeBlock({
   const [visible, setVisible] = useState(false);
   const [state, setState] = useState<TypeState>({ lineIdx: 0, charIdx: 0 });
 
+  const meta = useMemo(() => {
+    const prefixes = lines.map(([label]) => `> ${label}: `);
+    const lineLens = lines.map(
+      ([label, value]) => `> ${label}: `.length + value.length,
+    );
+    return { prefixes, lineLens };
+  }, [lines]);
+
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-
-    const rafId = requestAnimationFrame(() => {
-      const rect = node.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.9 && rect.bottom > 0) {
-        setVisible(true);
-      }
-    });
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -37,19 +38,15 @@ export function CodeBlock({
           if (entry.isIntersecting) {
             setVisible(true);
             observer.disconnect();
-            break;
+            return;
           }
         }
       },
-      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
     );
 
     observer.observe(node);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -59,42 +56,73 @@ export function CodeBlock({
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    let cancelled = false;
-    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    if (reduced) {
+      const last = lines.length - 1;
+      // Skip the typewriter animation entirely for users who prefer reduced motion.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setState({ lineIdx: last, charIdx: meta.lineLens[last] });
+      return;
+    }
 
-    (async () => {
-      if (reduced) {
-        if (cancelled) return;
-        const last = lines.length - 1;
-        const [lbl, val] = lines[last];
-        setState({ lineIdx: last, charIdx: `> ${lbl}: `.length + val.length });
-        return;
+    const { lineLens } = meta;
+    const lineCount = lines.length;
+    const start = performance.now();
+    let rafId: number | null = null;
+
+    const tick = (now: number) => {
+      let elapsed = now - start;
+      let lineIdx = 0;
+      let charIdx = 0;
+      let done = false;
+
+      while (lineIdx < lineCount) {
+        const lineDur = lineLens[lineIdx] * CHAR_MS;
+        if (elapsed < lineDur) {
+          charIdx = Math.min(
+            lineLens[lineIdx],
+            Math.floor(elapsed / CHAR_MS) + 1,
+          );
+          break;
+        }
+        elapsed -= lineDur;
+        if (lineIdx === lineCount - 1) {
+          charIdx = lineLens[lineIdx];
+          done = true;
+          break;
+        }
+        if (elapsed < LINE_PAUSE_MS) {
+          charIdx = lineLens[lineIdx];
+          break;
+        }
+        elapsed -= LINE_PAUSE_MS;
+        lineIdx++;
       }
 
-      for (let l = 0; l < lines.length; l++) {
-        const [label, value] = lines[l];
-        const lineLen = `> ${label}: `.length + value.length;
-        for (let c = 1; c <= lineLen; c++) {
-          if (cancelled) return;
-          setState({ lineIdx: l, charIdx: c });
-          await wait(CHAR_MS);
-        }
-        if (l < lines.length - 1) {
-          await wait(LINE_PAUSE_MS);
-        }
+      setState((prev) =>
+        prev.lineIdx === lineIdx && prev.charIdx === charIdx
+          ? prev
+          : { lineIdx, charIdx },
+      );
+
+      if (!done) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        rafId = null;
       }
-    })();
+    };
+
+    rafId = requestAnimationFrame(tick);
 
     return () => {
-      cancelled = true;
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [visible, lines]);
+  }, [visible, lines, meta]);
 
   return (
     <div className={`code-block${visible ? " is-visible" : ""}`} ref={ref}>
       {lines.map(([label, value], i) => {
-        const prefix = `> ${label}: `;
-        const lineLen = prefix.length + value.length;
+        const prefix = meta.prefixes[i];
+        const lineLen = meta.lineLens[i];
         const typed =
           i < state.lineIdx ? lineLen : i === state.lineIdx ? state.charIdx : 0;
         const showPrefix = Math.min(typed, prefix.length);

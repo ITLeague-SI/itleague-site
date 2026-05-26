@@ -1,36 +1,44 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Expert } from "@/lib/supabase/types";
+import { createPortal } from "react-dom";
+import type { Expert } from "@/lib/content";
+import { AssetImage } from "./AssetImage";
 
 type Props = {
   expert: Expert;
   onClose: () => void;
 };
 
-// Должно совпадать с duration у @keyframes expert-modal-pop-out / fade-out.
 const CLOSE_DURATION_MS = 220;
 
 export function ExpertModal({ expert, onClose }: Props) {
+  const [portalRoot, setPortalRoot] = useState<HTMLDivElement | null>(null);
   const [phase, setPhase] = useState<"open" | "closing">("open");
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
-  // Держим onClose в ref, чтобы эффекты не перезапускались при смене его identity.
   const onCloseRef = useRef(onClose);
   useEffect(() => {
     onCloseRef.current = onClose;
   }, [onClose]);
 
-  // Стабильный колбэк — не зависит ни от phase, ни от onClose.
-  // Благодаря этому эффекты ниже навешиваются один раз на всё время жизни модалки.
   const requestClose = useCallback(() => {
     setPhase((prev) => (prev === "closing" ? prev : "closing"));
   }, []);
 
-  // Когда фаза переходит в "closing" — ждём анимацию и демонтируем компонент.
+  useEffect(() => {
+    const host = document.createElement("div");
+    host.dataset.expertModalPortal = "";
+    document.body.appendChild(host);
+    // One-time mount setup: we need a real DOM node before rendering through portal.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPortalRoot(host);
+    return () => {
+      host.remove();
+    };
+  }, []);
+
   useEffect(() => {
     if (phase !== "closing") return;
     const id = window.setTimeout(() => {
@@ -39,18 +47,30 @@ export function ExpertModal({ expert, onClose }: Props) {
     return () => window.clearTimeout(id);
   }, [phase]);
 
-  // Escape + блокировка скролла body + focus restore + focus trap —
-  // навешиваются один раз (requestClose стабильный).
   useEffect(() => {
+    if (!portalRoot) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
+
+    const siblings = Array.from(document.body.children).filter(
+      (el) => el !== portalRoot,
+    );
+    const previousState = siblings.map((el) => ({
+      el,
+      hadInert: el.hasAttribute("inert"),
+      ariaHidden: el.getAttribute("aria-hidden"),
+    }));
+    siblings.forEach((el) => {
+      el.setAttribute("inert", "");
+      el.setAttribute("aria-hidden", "true");
+    });
 
     const getFocusable = (): HTMLElement[] => {
       const root = dialogRef.current;
       if (!root) return [];
       return Array.from(
         root.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        )
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        ),
       ).filter((el) => !el.hasAttribute("disabled"));
     };
 
@@ -79,8 +99,6 @@ export function ExpertModal({ expert, onClose }: Props) {
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    // Отдаём фокус кнопке-закрытию после маунта (через rAF, чтобы браузер
-    // успел позиционировать элемент после анимации pop-in).
     const raf = window.requestAnimationFrame(() => {
       closeBtnRef.current?.focus();
     });
@@ -89,16 +107,25 @@ export function ExpertModal({ expert, onClose }: Props) {
       window.removeEventListener("keydown", onKey);
       window.cancelAnimationFrame(raf);
       document.body.style.overflow = prevOverflow;
-      // Возвращаем фокус элементу, с которого модалка была открыта.
+      previousState.forEach(({ el, hadInert, ariaHidden }) => {
+        if (!hadInert) el.removeAttribute("inert");
+        if (ariaHidden === null) {
+          el.removeAttribute("aria-hidden");
+        } else {
+          el.setAttribute("aria-hidden", ariaHidden);
+        }
+      });
       previouslyFocused?.focus?.();
     };
-  }, [requestClose]);
+  }, [portalRoot, requestClose]);
 
   const achievements = expert.achievements
     ? expert.achievements.split("\n").filter((line) => line.trim().length > 0)
     : [];
 
-  return (
+  if (!portalRoot) return null;
+
+  return createPortal(
     <div
       className="expert-modal-backdrop"
       data-phase={phase}
@@ -138,7 +165,11 @@ export function ExpertModal({ expert, onClose }: Props) {
         </button>
         <div className="expert-modal-photo">
           {expert.photo_url ? (
-            <img alt={expert.name} src={expert.photo_url} />
+            <AssetImage
+              alt={expert.name}
+              src={expert.photo_url}
+              sizes="(max-width: 768px) 100vw, 360px"
+            />
           ) : (
             <div className="expert-modal-photo-placeholder" aria-hidden="true" />
           )}
@@ -152,13 +183,14 @@ export function ExpertModal({ expert, onClose }: Props) {
               <h4>Регалії</h4>
               <ul>
                 {achievements.map((line, i) => (
-                  <li key={`${i}-${line}`}>{line.replace(/^[•\-\s]+/, "")}</li>
+                  <li key={i}>{line.replace(/^[•\-\s]+/, "")}</li>
                 ))}
               </ul>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    portalRoot,
   );
 }
