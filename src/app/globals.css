@@ -570,10 +570,25 @@ h2 {
   grid-area: 2 / 2;
   align-self: center;
   justify-self: center;
+  position: relative;
   width: 82px;
-  height: 82px;
-  border: 1px solid rgba(230, 234, 240, 0.45);
-  transform: skewY(28deg) rotate(30deg);
+  height: 86px;
+}
+
+.loop-core-stairs {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 82px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.loop-core-stairs-top {
+  /* Slight vertical adjustment to match the Figma layering */
+  transform: translate(-50%, calc(-50% - 2.75px));
 }
 
 .difference .section-inner,
