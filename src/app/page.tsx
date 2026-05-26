@@ -40,12 +40,12 @@ const assets = {
 };
 
 const features = [
-  "Система оцінки талантів",
-  "Рейтинги Backend-фахівців",
-  "Реальні кейси, реальні задачі",
-  "Змагання, а не навчання",
-  "Турніри та сезони",
-  "Інженерний підхід",
+  { label: "Система оцінки талантів",    icon: asset("e1a2b3c4-feat-medal-one-icon") },
+  { label: "Рейтинги Backend-фахівців",  icon: asset("e2b3c4d5-feat-ranking-icon")   },
+  { label: "Реальні кейси, реальні задачі", icon: asset("e3c4d5e6-feat-computer-icon") },
+  { label: "Змагання, а не навчання",    icon: asset("e4d5e6f7-feat-arena-icon")     },
+  { label: "Турніри та сезони",          icon: asset("e5e6f7a8-feat-trophy-icon")    },
+  { label: "Інженерний підхід",          icon: asset("e6f7a8b9-feat-people-icon")    },
 ];
 
 const levels = [
@@ -214,9 +214,16 @@ export default function Home() {
         <div className="feature-wrap">
           <div className="feature-grid">
             {features.map((feature, index) => (
-              <article className={index === 0 ? "feature-card active" : "feature-card"} key={feature}>
-                <span className="feature-icon" />
-                <p>{feature}</p>
+              <article className={index === 0 ? "feature-card active" : "feature-card"} key={feature.label}>
+                <AssetImage
+                  src={feature.icon}
+                  alt=""
+                  ariaHidden
+                  width={48}
+                  height={48}
+                  className="feature-icon"
+                />
+                <p>{feature.label}</p>
               </article>
             ))}
           </div>

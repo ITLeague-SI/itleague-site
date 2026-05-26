@@ -604,12 +604,12 @@ h2 {
   width: 48px;
   height: 48px;
   margin-bottom: 24px;
-  border: 1px solid var(--icons);
-  border-radius: 50%;
+  /* SVG icons use currentColor; tint inactive cards to --icons colour */
+  opacity: 0.55;
 }
 
 .feature-card.active .feature-icon {
-  border-color: var(--accent);
+  opacity: 1;
 }
 
 .feature-card p {
@@ -1468,6 +1468,26 @@ h2 {
   text-align: center;
 }
 
+.quote-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.quote-arrow:hover,
+.quote-arrow:focus-visible {
+  opacity: 1;
+  outline: none;
+}
+
+/* Keep legacy selector for safety */
 .quote button {
   width: 64px;
   height: 64px;

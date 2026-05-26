@@ -1,7 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import type { Testimonial } from "@/lib/content";
+import { figmaAsset } from "@/lib/figma-asset";
+
+const ARROW_LEFT  = figmaAsset("e7a8b9c0-carousel-arrow-left");
+const ARROW_RIGHT = figmaAsset("e8b9c0d1-carousel-arrow-right");
 
 type Props = {
   items: Testimonial[];
@@ -44,9 +49,10 @@ export function TestimonialsCarousel({ items }: Props) {
         <button
           type="button"
           aria-label="Попередній відгук"
+          className="quote-arrow"
           onClick={() => go(-1)}
         >
-          ‹
+          <Image src={ARROW_LEFT} alt="" aria-hidden width={24} height={24} unoptimized />
         </button>
       )}
       <blockquote aria-live="polite">
@@ -65,9 +71,10 @@ export function TestimonialsCarousel({ items }: Props) {
         <button
           type="button"
           aria-label="Наступний відгук"
+          className="quote-arrow"
           onClick={() => go(1)}
         >
-          ›
+          <Image src={ARROW_RIGHT} alt="" aria-hidden width={24} height={24} unoptimized />
         </button>
       )}
     </div>
