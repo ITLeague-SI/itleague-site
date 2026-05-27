@@ -2033,7 +2033,9 @@ h2 {
   .level:nth-child(2) .level-squares,
   .level:nth-child(3) .level-squares {
     flex-direction: row;
-    justify-content: flex-start;
+    /* Icons cascade to the right (each level wider than the previous),
+       so right-align inside the icon row — per Figma node 23:1059. */
+    justify-content: flex-end;
     gap: 6px;
     height: 54px;
     padding: 0;
@@ -2051,7 +2053,10 @@ h2 {
   }
 
   .level h3 {
+    /* Tablet headings: 22/28 (Figma Tablet/Body.Tertiary). */
     margin: 40px 0 16px;
+    font-size: 22px;
+    line-height: 28px;
   }
 
   .mini-cta {
@@ -2579,7 +2584,9 @@ h2 {
   .level:nth-child(2) .level-squares,
   .level:nth-child(3) .level-squares {
     flex-direction: row;
-    justify-content: flex-start;
+    /* Same right-cascade as tablet — Figma keeps icons at the trailing
+       edge of each level's variable width. */
+    justify-content: flex-end;
     gap: 6px;
     height: 42px;
     padding: 0;
