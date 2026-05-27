@@ -2227,11 +2227,16 @@ h2 {
     position: static;
     grid-column: 1;
     grid-row: 2;
-    justify-self: center;
+    /* Per Figma the number is offset to the right of the dashed line —
+       not centred under the circle. Right-align inside col 1 with a
+       small inset so "01" sits along the trailing edge of the (inactive)
+       circle. */
+    justify-self: end;
     align-self: start;
     width: auto;
     margin: 0;
-    text-align: center;
+    padding-right: 24px;
+    text-align: right;
   }
 
   .founders-card {
@@ -2869,11 +2874,15 @@ h2 {
     position: static;
     grid-column: 1;
     grid-row: 2;
-    justify-self: center;
+    /* Per Figma the number sits to the right of the dashed line, not
+       centred under the circle. Right-align with a small inset so the
+       digits hug the trailing edge of the (inactive) circle. */
+    justify-self: end;
     align-self: start;
     width: auto;
     margin: 0;
-    text-align: center;
+    padding-right: 12px;
+    text-align: right;
   }
 
   .founders .section-inner {
