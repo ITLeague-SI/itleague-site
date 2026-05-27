@@ -1,10 +1,11 @@
 import {
   experts,
   faqs,
+  galleryRow1,
+  galleryRow2,
   heroSlides,
   pricingFeatures,
   pricingTiers,
-  testimonialPhotos,
   testimonials,
 } from "@/lib/content";
 import { figmaAsset as asset } from "@/lib/figma-asset";
@@ -94,10 +95,20 @@ function Shell({
   );
 }
 
-function Gallery({ photos, double = false }: { photos: string[]; double?: boolean }) {
+function Gallery({
+  photos,
+  photosRow2,
+  double = false,
+}: {
+  photos: string[];
+  photosRow2?: string[];
+  double?: boolean;
+}) {
   // Duplicate items so the seamless marquee loop works (animate -50% → back to 0)
   const row1 = [...photos, ...photos];
-  const row2 = [...[...photos].reverse(), ...[...photos].reverse()];
+  // If a dedicated second-row set is provided, use it; otherwise mirror the first row.
+  const row2Source = photosRow2 && photosRow2.length > 0 ? photosRow2 : [...photos].reverse();
+  const row2 = [...row2Source, ...row2Source];
 
   return (
     <div className="gallery">
@@ -414,8 +425,8 @@ export default function Home() {
       <Shell className="testimonials">
         <CodeBlock lines={[["Feedback source", "participants"], ["Verification", "post-competition"], ["Filtering", "minimal"]]} />
         <h2>Що кажуть учасники</h2>
-        {testimonialPhotos.length > 0 && (
-          <Gallery photos={testimonialPhotos} double />
+        {galleryRow1.length > 0 && (
+          <Gallery photos={galleryRow1} photosRow2={galleryRow2} double />
         )}
         <TestimonialsCarousel items={testimonials} />
       </Shell>
