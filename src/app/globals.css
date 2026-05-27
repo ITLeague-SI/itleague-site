@@ -2028,7 +2028,10 @@ h2 {
     width: 630px;
   }
 
-  .level-squares {
+  .level-squares,
+  .level:nth-child(1) .level-squares,
+  .level:nth-child(2) .level-squares,
+  .level:nth-child(3) .level-squares {
     flex-direction: row;
     justify-content: flex-start;
     gap: 6px;
@@ -2036,6 +2039,11 @@ h2 {
     padding: 0;
     border-top: 1px solid var(--border-primary);
     border-left: 0;
+  }
+
+  .level-description {
+    width: auto;
+    padding-bottom: 0;
   }
 
   .level .system-small {
@@ -2566,7 +2574,10 @@ h2 {
     padding: 0 22px;
   }
 
-  .level-squares {
+  .level-squares,
+  .level:nth-child(1) .level-squares,
+  .level:nth-child(2) .level-squares,
+  .level:nth-child(3) .level-squares {
     flex-direction: row;
     justify-content: flex-start;
     gap: 6px;
@@ -2574,6 +2585,11 @@ h2 {
     padding: 0;
     border-top: 1px solid var(--border-primary);
     border-left: 0;
+  }
+
+  .level-description {
+    width: auto;
+    padding-bottom: 0;
   }
 
   .level .system-small {
