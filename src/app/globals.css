@@ -2134,24 +2134,26 @@ h2 {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    width: 616px;
-    margin: 80px 36px 116px;
-    padding-top: 0;
+    gap: 32px;
+    width: 100%;
+    max-width: 616px;
+    margin: 80px auto 116px;
+    /* Clear the desktop padding (0 40px) so the steps and the
+       absolutely-positioned dashed line share the same origin. */
+    padding: 0;
   }
 
   .growth-line::before {
     content: "";
     position: absolute;
-    /* Stretch the dashed connector between first and last circle —
-       relying on top/bottom rather than a fixed height so the line
-       always reaches the last step regardless of content height. */
-    top: 56px;
-    bottom: 56px;
+    /* Dashed line through the CENTER of the circle column.
+       Column 1 of each step is 144px wide, so center at x=72.
+       Anchored top/bottom so it always reaches the last circle. */
+    top: 72px;
+    bottom: 72px;
     right: auto;
-    left: 234px;
+    left: 72px;
     width: 1px;
-    /* Reset the base desktop `height: 1px` so top+bottom can stretch. */
     height: auto;
     background: repeating-linear-gradient(180deg, var(--icons) 0 4px, transparent 4px 8px);
     opacity: 0.55;
@@ -2160,49 +2162,74 @@ h2 {
   .growth-step {
     position: relative;
     display: grid;
-    grid-template-columns: 112px 1fr;
-    grid-template-rows: auto auto;
-    align-items: start;
-    min-height: 113px;
+    /* col 1 = circle rail (fixed 144px to fit the 112px active circle
+       comfortably), col 2 = title.
+       row 1 = circle row (fixed 144px so circle center is always at
+       y=72 regardless of which step is active), row 2 = step number. */
+    grid-template-columns: 144px 1fr;
+    grid-template-rows: 144px auto;
+    column-gap: 24px;
+    row-gap: 8px;
+    align-items: center;
   }
 
   .growth-step h3 {
-    position: absolute;
-    top: 0;
-    left: 292px;
-    width: 180px;
+    position: static;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    width: auto;
     min-height: 0;
     margin: 0;
     border-left: 0;
-    padding: 6px 0 0 0;
+    padding: 0;
+    /* Tablet titles per Figma Desktop/Body.Primary.Extra-Bold (16/24). */
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .growth-step-circle {
-    position: absolute;
-    top: 0;
-    left: 206px;
-    width: 56px;
-    height: 56px;
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    align-self: center;
+    /* Inactive size — Figma "Graphics" with p-[24px] + 32px icon = 80px. */
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .growth-step-active .growth-step-circle {
-    /* Override desktop's 72×72 active expansion so all circles stay
-       the same size on tablet and the row heights remain uniform. */
-    width: 56px;
-    height: 56px;
+    /* Active size — Figma "Graphics" with p-[40px] + 32px icon = 112px. */
+    width: 112px;
+    height: 112px;
     border-color: var(--accent);
     background: var(--background-card);
     color: var(--accent);
   }
 
+  /* Keep icon size constant (32) across active/inactive — only the
+     padding ring grows on tablet/mobile. */
+  .growth-step-circle svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .growth-step-active .growth-step-circle svg {
+    width: 32px;
+    height: 32px;
+  }
+
   .growth-step p {
-    position: absolute;
-    top: 68px;
-    left: 206px;
-    width: 56px;
+    position: static;
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    align-self: start;
+    width: auto;
     margin: 0;
     text-align: center;
   }
@@ -2754,23 +2781,24 @@ h2 {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    width: 284px;
-    margin: 80px 22px 0;
-    padding-top: 0;
+    gap: 24px;
+    width: 100%;
+    max-width: 284px;
+    margin: 80px auto 0;
+    /* Clear desktop's padding so steps and dashed line share origin. */
+    padding: 0;
   }
 
   .growth-line::before {
     content: "";
     position: absolute;
-    /* Stretch the dashed connector across the full step list (top/
-       bottom anchors), so the line always reaches the last circle. */
+    /* Dashed line through center of the circle column.
+       Column 1 is 112px wide → center at x=56. */
     top: 56px;
     bottom: 56px;
     right: auto;
-    left: 72px;
+    left: 56px;
     width: 1px;
-    /* Reset the base desktop `height: 1px` so top+bottom can stretch. */
     height: auto;
     background: repeating-linear-gradient(180deg, var(--icons) 0 4px, transparent 4px 8px);
     opacity: 0.55;
@@ -2779,49 +2807,72 @@ h2 {
   .growth-step {
     position: relative;
     display: grid;
+    /* col 1 = 112px circle rail, col 2 = title. Row 1 = 112px so the
+       largest (active 88) circle fits; circle centers align across
+       all steps regardless of which is active. */
     grid-template-columns: 112px 1fr;
-    grid-template-rows: auto auto;
-    min-height: 113px;
+    grid-template-rows: 112px auto;
+    column-gap: 16px;
+    row-gap: 8px;
+    align-items: center;
+    min-height: 0;
   }
 
   .growth-step h3 {
     position: static;
     grid-column: 2;
-    grid-row: 1;
-    width: 167px;
+    grid-row: 1 / span 2;
+    align-self: center;
+    width: auto;
     min-height: 0;
-    margin: 0 0 0 -22px;
+    margin: 0;
     border-left: 0;
-    padding: 6px 0 0 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .growth-step-circle {
     grid-column: 1;
     grid-row: 1;
+    justify-self: center;
+    align-self: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 44px;
-    width: 56px;
-    height: 56px;
+    margin-left: 0;
+    /* Inactive size — scaled down for narrow mobile viewport. */
+    width: 64px;
+    height: 64px;
   }
 
   .growth-step-active .growth-step-circle {
-    /* Override desktop's 72×72 active expansion so all circles stay
-       the same size on mobile and the row heights remain uniform. */
-    width: 56px;
-    height: 56px;
+    /* Active size — proportionally bigger, fits in 112px col. */
+    width: 88px;
+    height: 88px;
     border-color: var(--accent);
     background: var(--background-card);
     color: var(--accent);
+  }
+
+  .growth-step-circle svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .growth-step-active .growth-step-circle svg {
+    width: 28px;
+    height: 28px;
   }
 
   .growth-step p {
     position: static;
     grid-column: 1;
     grid-row: 2;
-    width: 56px;
-    margin: 12px 0 0 44px;
+    justify-self: center;
+    align-self: start;
+    width: auto;
+    margin: 0;
     text-align: center;
   }
 
