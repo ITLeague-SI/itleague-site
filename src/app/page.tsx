@@ -254,9 +254,10 @@ export default function Home() {
                     aria-hidden="true"
                   >
                     {index === 0 ? (
-                      /* Topmost icon — notched-corner page (Figma "Square" vector). */
+                      /* Topmost icon — notched-corner page (Figma "Square" vector).
+                         Cut sits at the BOTTOM-RIGHT corner. */
                       <path
-                        d="M0.5 0.5 H33.5 L47.5 14.5 V47.5 H0.5 Z"
+                        d="M0.5 0.5 H47.5 V33.5 L33.5 47.5 H0.5 Z"
                         stroke="currentColor"
                         strokeWidth="1"
                       />

@@ -2045,12 +2045,6 @@ h2 {
     border-left: 0;
   }
 
-  /* Flip the notched-corner icon horizontally so its cut faces the
-     outside of the row (top-LEFT in row-reverse), per Figma 23:1059. */
-  .level-squares .level-square:first-child {
-    transform: scaleX(-1);
-  }
-
   .level-description {
     width: auto;
     padding-bottom: 0;
@@ -2600,12 +2594,6 @@ h2 {
     padding: 0;
     border-top: 1px solid var(--border-primary);
     border-left: 0;
-  }
-
-  /* Flip the notched-corner icon so its cut faces the outside of the
-     row (top-LEFT after row-reverse). */
-  .level-squares .level-square:first-child {
-    transform: scaleX(-1);
   }
 
   .level-description {
