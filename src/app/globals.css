@@ -3707,3 +3707,380 @@ h2 {
     animation: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Free trial modal — Figma node 38:207 (pop-up file)                  */
+/* ------------------------------------------------------------------ */
+.free-trial-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(5, 7, 10, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: free-trial-fade-in 0.2s ease;
+  overflow-y: auto;
+}
+
+.free-trial-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: 100%;
+  max-width: 672px;
+  padding: 24px;
+  animation: free-trial-slide-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.free-trial-modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(58, 69, 86, 0.4);
+  border-radius: 999px;
+  background: rgba(33, 38, 50, 0.5);
+  color: var(--text-secondary);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.free-trial-modal-close:hover,
+.free-trial-modal-close:focus-visible {
+  color: var(--text-primary);
+  border-color: rgba(110, 168, 255, 0.5);
+  background: rgba(33, 38, 50, 0.8);
+  outline: none;
+}
+
+.free-trial-modal-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+
+.free-trial-modal-heading h2 {
+  margin: 0;
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: 0;
+  color: var(--text-primary);
+}
+
+.free-trial-modal-heading p {
+  margin: 0;
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+  color: var(--text-secondary);
+}
+
+.free-trial-modal-card {
+  position: relative;
+  padding: 40px;
+  border: 1px solid #212632;
+  border-radius: 10px;
+  background: rgba(33, 38, 50, 0.2);
+  box-shadow: 0 0 40px rgba(33, 38, 50, 0.5);
+}
+
+/* Decorative L-brackets on the top-left and bottom-right corners. */
+.free-trial-modal-corner {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  pointer-events: none;
+}
+
+.free-trial-modal-corner-tl {
+  top: 0;
+  left: 0;
+  border-top: 2px solid #3a4556;
+  border-left: 2px solid #3a4556;
+  border-top-left-radius: 8px;
+}
+
+.free-trial-modal-corner-br {
+  right: 0;
+  bottom: 0;
+  border-right: 2px solid #3a4556;
+  border-bottom: 2px solid #3a4556;
+  border-bottom-right-radius: 8px;
+}
+
+.free-trial-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.free-trial-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.free-trial-modal-field label {
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--text-primary);
+}
+
+.free-trial-modal-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  border: 1px solid #212632;
+  border-radius: 10px;
+  background: rgba(33, 38, 50, 0.3);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.free-trial-modal-input:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(110, 168, 255, 0.18);
+}
+
+.free-trial-modal-input.has-error {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.18);
+}
+
+.free-trial-modal-input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 100%;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.free-trial-modal-input input {
+  flex: 1 1 auto;
+  height: 100%;
+  padding: 0 16px 0 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-primary);
+  outline: none;
+  /* Reset the default user-agent styling for autofill. */
+  -webkit-text-fill-color: var(--text-primary);
+}
+
+.free-trial-modal-input input::placeholder {
+  color: var(--text-secondary);
+}
+
+.free-trial-modal-input input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px rgba(33, 38, 50, 0.3) inset;
+  -webkit-text-fill-color: var(--text-primary);
+}
+
+.free-trial-modal-input input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.free-trial-modal-field-error {
+  margin: 0;
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: #ff6b6b;
+}
+
+/* Honeypot — hide from humans but keep accessible to bots. */
+.free-trial-modal-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.free-trial-modal-privacy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 12px;
+  border: 1px solid #212632;
+  border-radius: 10px;
+  background: rgba(33, 38, 50, 0.2);
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--text-secondary);
+}
+
+.free-trial-modal-privacy svg {
+  flex: 0 0 16px;
+  color: var(--text-secondary);
+}
+
+.free-trial-modal-error {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 107, 107, 0.08);
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #ff8a8a;
+}
+
+.free-trial-modal-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 58px;
+  padding: 0 16px;
+  border: 1px solid #3a4556;
+  border-radius: 10px;
+  background: rgba(230, 234, 240, 0.1);
+  box-shadow: 0 0 20px rgba(230, 234, 240, 0.2);
+  color: var(--text-primary);
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.free-trial-modal-submit:hover:not(:disabled),
+.free-trial-modal-submit:focus-visible:not(:disabled) {
+  background: rgba(230, 234, 240, 0.18);
+  box-shadow: 0 0 28px rgba(230, 234, 240, 0.32);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.free-trial-modal-submit:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.free-trial-modal-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.free-trial-modal-success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  background: rgba(110, 168, 255, 0.12);
+  color: var(--accent);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.free-trial-modal-success h3 {
+  margin: 0;
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--text-primary);
+}
+
+.free-trial-modal-success p {
+  max-width: 480px;
+  margin: 0;
+  font-family: var(--font-inter), Arimo, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-secondary);
+}
+
+.free-trial-modal-success .free-trial-modal-submit {
+  margin-top: 16px;
+  min-width: 200px;
+}
+
+@keyframes free-trial-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes free-trial-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .free-trial-modal-backdrop,
+  .free-trial-modal {
+    animation: none;
+  }
+}
+
+/* Mobile / narrow viewport — scale the heading down so it fits. */
+@media (max-width: 700px) {
+  .free-trial-modal {
+    gap: 32px;
+    padding: 16px;
+  }
+
+  .free-trial-modal-heading h2 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .free-trial-modal-heading p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .free-trial-modal-card {
+    padding: 24px 20px;
+  }
+
+  .free-trial-modal-corner {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -13,6 +13,7 @@ import { AboutLoop } from "./components/AboutLoop";
 import { AssetImage } from "./components/AssetImage";
 import { CodeBlock } from "./components/CodeBlock";
 import { ExpertCard } from "./components/ExpertCard";
+import { FreeTrialButton } from "./components/FreeTrialButton";
 import { GrowthSteps } from "./components/GrowthSteps";
 import { KyivClock } from "./components/KyivClock";
 import { MobileMenu } from "./components/MobileMenu";
@@ -353,12 +354,23 @@ export default function Home() {
                     )}
                   </p>
                 </div>
-                <Button
-                  variant={index === 2 ? "light" : "ghost"}
-                  href={tier.paymentUrl ?? "#start"}
-                >
-                  {tier.cta_label}
-                </Button>
+                {tier.paymentUrl ? (
+                  <Button
+                    variant={index === 2 ? "light" : "ghost"}
+                    href={tier.paymentUrl}
+                  >
+                    {tier.cta_label}
+                  </Button>
+                ) : (
+                  /* Free trial — open a popup form instead of redirecting. */
+                  <FreeTrialButton
+                    variant={index === 2 ? "light" : "ghost"}
+                    arrowSrc={
+                      index === 2 ? assets.arrowDark : assets.arrowLight
+                    }
+                    label={tier.cta_label}
+                  />
+                )}
               </article>
             ))}
           </div>
