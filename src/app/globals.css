@@ -294,14 +294,19 @@ img {
 
 .hero,
 .section-shell {
-  padding: 0 100px;
+  /* Scale side padding with viewport: 24px minimum, ~5vw, 100px on
+     1280-wide Figma frame, capped at 120px on ultra-wide displays. */
+  padding: 0 clamp(24px, 5vw, 120px);
 }
 
 .hero-inner,
 .section-inner,
 .prices-inner {
   width: 100%;
-  max-width: 1080px;
+  /* Was hard-capped at 1080px — that's narrower than ~85% of any
+     viewport above 1280, leaving large empty margins. Bumped to 1440
+     so wide displays use ~80-90% of available width. */
+  max-width: 1800px;
   margin: 0 auto;
   border-right: 1px solid var(--border-primary);
   border-left: 1px solid var(--border-primary);
@@ -1269,7 +1274,7 @@ h2 {
 }
 
 .prices {
-  padding: 0 100px;
+  padding: 0 clamp(24px, 5vw, 120px);
   background: var(--background-secondary);
 }
 
