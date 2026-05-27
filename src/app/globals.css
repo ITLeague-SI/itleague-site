@@ -1854,9 +1854,14 @@ h2 {
     padding-left: 4px;
   }
 
-  /* Hide the full IT-League wordmark + "Backend" tag on tablet — only
-     the compact 24×24 mark is shown next to the hamburger menu. */
+  /* Hide the full IT-League wordmark + "Backend" tag and the full nav
+     on tablet — only the compact 24×24 mark stays next to the
+     hamburger menu. */
   .header-logo,
+  .nav {
+    display: none;
+  }
+
   .menu-toggle {
     position: static;
     display: grid;
