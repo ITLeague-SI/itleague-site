@@ -16,6 +16,7 @@ import { ExpertCard } from "./components/ExpertCard";
 import { GrowthSteps } from "./components/GrowthSteps";
 import { KyivClock } from "./components/KyivClock";
 import { MobileMenu } from "./components/MobileMenu";
+import { PaymentSuccessBanner } from "./components/PaymentSuccessBanner";
 import { TestimonialsCarousel } from "./components/TestimonialsCarousel";
 
 const navItems = [
@@ -61,12 +62,20 @@ const levels = [
 function Button({
   children,
   variant = "ghost",
+  href = "#prices",
 }: {
   children: React.ReactNode;
   variant?: "primary" | "light" | "ghost";
+  href?: string;
 }) {
+  const isExternal = href.startsWith("http://") || href.startsWith("https://");
   return (
-    <a className={`button button-${variant}`} href="#prices">
+    <a
+      className={`button button-${variant}`}
+      href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+    >
       <span>{children}</span>
       {variant !== "primary" && (
         <AssetImage
@@ -138,6 +147,7 @@ export default function Home() {
 
   return (
     <main className="site">
+      <PaymentSuccessBanner />
       <header className="header">
         <a className="header-logo" href="#">
           <AssetImage src={assets.logo} alt="IT League" width={154} height={24} priority />
@@ -342,7 +352,10 @@ export default function Home() {
                     )}
                   </p>
                 </div>
-                <Button variant={index === 2 ? "light" : "ghost"}>
+                <Button
+                  variant={index === 2 ? "light" : "ghost"}
+                  href={tier.paymentUrl ?? "#start"}
+                >
                   {tier.cta_label}
                 </Button>
               </article>

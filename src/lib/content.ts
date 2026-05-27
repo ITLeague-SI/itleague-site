@@ -37,6 +37,9 @@ export type PricingTier = {
   description_top: string;
   description_bottom: string;
   cta_label: string;
+  /* WayForPay invoice URL — paid tiers redirect here for checkout.
+     Free tier uses null (anchors to the registration form instead). */
+  paymentUrl: string | null;
 };
 
 export type PricingFeature = {
@@ -267,30 +270,35 @@ export const pricingTiers: PricingTier[] = [
     description_top: "Для старту та знайомства",
     description_bottom: "з системою",
     cta_label: "Обрати free trial",
+    /* Free trial — no checkout, scroll/anchor to the registration form. */
+    paymentUrl: null,
   },
   {
     name: "Basic",
-    price: "₴1.900",
+    price: "₴2.450",
     period: "/3 міс",
     description_top: "Для старту та знайомства",
     description_bottom: "з системою",
     cta_label: "Обрати basic",
+    paymentUrl: "https://secure.wayforpay.com/button/be890a65d3182",
   },
   {
     name: "Core",
-    price: "₴5.500",
+    price: "₴4.900",
     period: "/3 міс",
     description_top: "Для активного росту",
     description_bottom: "та змагань",
     cta_label: "Обрати core",
+    paymentUrl: "https://secure.wayforpay.com/button/b56b04cbca36b",
   },
   {
     name: "Pro",
-    price: "₴19.900",
+    price: "₴19.500",
     period: "/3 міс",
     description_top: "Максимальні можливості",
     description_bottom: "для професіоналів",
     cta_label: "Обрати pro",
+    paymentUrl: "https://secure.wayforpay.com/button/b6bffb34e5c7b",
   },
 ].map((t, i) => ({
   id: `tier-${i}`,

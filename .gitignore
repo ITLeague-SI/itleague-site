@@ -36,3 +36,5 @@ next-env.d.ts
 /.claude/
 /.mcp.json
 /skills-lock.json
+*.zip
+tmp/
