@@ -90,6 +90,16 @@ img {
   white-space: nowrap;
 }
 
+/* 24×24 compact logo mark — hidden on desktop, shown on tablet/mobile
+   (overridden inside the respective @media blocks). */
+.header-logo-mark {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
 .header-logo img,
 .footer-logo img {
   width: 154px;
@@ -1837,19 +1847,28 @@ h2 {
   }
 
   .header {
-    grid-template-columns: 1fr 180px;
-    padding-left: 24px;
+    /* hamburger | logo-mark | flex space | CTA — matches Figma 57:5024. */
+    grid-template-columns: 48px auto 1fr 180px;
+    column-gap: 8px;
+    padding-left: 4px;
   }
 
-  .nav {
-    display: none;
-  }
-
+  /* Hide the full IT-League wordmark + "Backend" tag on tablet — only
+     the compact 24×24 mark is shown next to the hamburger menu. */
+  .header-logo,
   .menu-toggle {
+    position: static;
     display: grid;
-    position: absolute;
-    top: 4px;
-    left: calc(50% - 24px);
+    grid-column: 1;
+  }
+
+  .header-logo-mark {
+    display: inline-flex;
+    grid-column: 2;
+  }
+
+  .header-cta {
+    grid-column: 4;
   }
 
   .mobile-nav-panel {
@@ -2367,9 +2386,20 @@ h2 {
   }
 
   .header {
-    grid-template-columns: 48px 1fr 164px;
+    /* hamburger | logo-mark | flex space | CTA — matches Figma 57:5024. */
+    grid-template-columns: 48px auto 1fr 164px;
+    column-gap: 8px;
     height: 48px;
     padding-left: 4px;
+  }
+
+  .header-logo-mark {
+    display: inline-flex;
+    grid-column: 2;
+  }
+
+  .header-cta {
+    grid-column: 4;
   }
 
   .site {
@@ -2404,7 +2434,9 @@ h2 {
   }
 
   .header-cta {
-    grid-column: 3;
+    /* col 4 now (was col 3) — the 4-column grid added a dedicated track
+       for the compact logo mark; CTA sits in the final track. */
+    grid-column: 4;
     width: 164px;
     max-width: 164px;
     min-width: 164px;

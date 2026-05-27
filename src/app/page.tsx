@@ -27,6 +27,7 @@ const navItems = [
 
 const assets = {
   logo: asset("cbf7e2a1-ea71-4cfd-8269-c8cfb9f87010"),
+  logoMark: asset("b3c4d5e6-header-logo-mark"),
   wordmark: asset("8ea2d415-a834-429e-b5c4-c31f8557a711"),
   arrowDark: asset("bf119f8a-29c2-4550-9672-56b69219d338"),
   arrowLight: asset("f7076055-8cfa-4dae-8c06-75ecaf354609"),
@@ -141,6 +142,10 @@ export default function Home() {
         <a className="header-logo" href="#">
           <AssetImage src={assets.logo} alt="IT League" width={154} height={24} priority />
           <span>Backend</span>
+        </a>
+        {/* Compact 24×24 mark shown on tablet/mobile in place of the wordmark. */}
+        <a className="header-logo-mark" href="#" aria-label="IT League">
+          <AssetImage src={assets.logoMark} alt="" ariaHidden width={24} height={24} />
         </a>
         <nav className="nav" aria-label="Основна навігація">
           {navItems.map((item) => (
