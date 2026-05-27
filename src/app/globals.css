@@ -2189,6 +2189,10 @@ h2 {
   }
 
   .growth-step-active .growth-step-circle {
+    /* Override desktop's 72×72 active expansion so all circles stay
+       the same size on tablet and the row heights remain uniform. */
+    width: 56px;
+    height: 56px;
     border-color: var(--accent);
     background: var(--background-card);
     color: var(--accent);
@@ -2803,6 +2807,10 @@ h2 {
   }
 
   .growth-step-active .growth-step-circle {
+    /* Override desktop's 72×72 active expansion so all circles stay
+       the same size on mobile and the row heights remain uniform. */
+    width: 56px;
+    height: 56px;
     border-color: var(--accent);
     background: var(--background-card);
     color: var(--accent);
