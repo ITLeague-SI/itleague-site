@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 type Props = {
   open: boolean;
@@ -25,8 +26,14 @@ export function FreeTrialModal({ open, onClose }: Props) {
     email?: string;
     phone?: string;
   }>({});
+  const [mounted, setMounted] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
+
+  // Track mount so we can safely call document.body in the portal.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Lock body scroll while modal is open; restore on close.
   useEffect(() => {
@@ -59,7 +66,7 @@ export function FreeTrialModal({ open, onClose }: Props) {
     }
   }, [open]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -109,7 +116,7 @@ export function FreeTrialModal({ open, onClose }: Props) {
     }
   };
 
-  return (
+  return createPortal(
     <div
       className="free-trial-modal-backdrop"
       role="dialog"
@@ -241,7 +248,8 @@ export function FreeTrialModal({ open, onClose }: Props) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
