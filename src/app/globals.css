@@ -2032,10 +2032,12 @@ h2 {
   .level:nth-child(1) .level-squares,
   .level:nth-child(2) .level-squares,
   .level:nth-child(3) .level-squares {
-    flex-direction: row;
-    /* Icons cascade to the right (each level wider than the previous),
-       so right-align inside the icon row — per Figma node 23:1059. */
-    justify-content: flex-end;
+    /* row-reverse so the FIRST DOM child (notched) lands at the
+       RIGHTMOST position, with plain squares cascading to its left —
+       matches Figma node 23:1059. justify-content: flex-start packs
+       items at the start of the reversed axis (= right edge). */
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     gap: 6px;
     height: 54px;
     padding: 0;
@@ -2583,10 +2585,10 @@ h2 {
   .level:nth-child(1) .level-squares,
   .level:nth-child(2) .level-squares,
   .level:nth-child(3) .level-squares {
-    flex-direction: row;
-    /* Same right-cascade as tablet — Figma keeps icons at the trailing
-       edge of each level's variable width. */
-    justify-content: flex-end;
+    /* row-reverse + flex-start: notched (first DOM) ends up RIGHTMOST,
+       plain squares cascade to its left. */
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     gap: 6px;
     height: 42px;
     padding: 0;
