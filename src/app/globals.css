@@ -2143,12 +2143,16 @@ h2 {
   .growth-line::before {
     content: "";
     position: absolute;
-    top: 72px;
+    /* Stretch the dashed connector between first and last circle —
+       relying on top/bottom rather than a fixed height so the line
+       always reaches the last step regardless of content height. */
+    top: 56px;
+    bottom: 56px;
     right: auto;
-    bottom: auto;
     left: 234px;
     width: 1px;
-    height: 430px;
+    /* Reset the base desktop `height: 1px` so top+bottom can stretch. */
+    height: auto;
     background: repeating-linear-gradient(180deg, var(--icons) 0 4px, transparent 4px 8px);
     opacity: 0.55;
   }
@@ -2755,12 +2759,15 @@ h2 {
   .growth-line::before {
     content: "";
     position: absolute;
-    top: 86px;
+    /* Stretch the dashed connector across the full step list (top/
+       bottom anchors), so the line always reaches the last circle. */
+    top: 56px;
+    bottom: 56px;
     right: auto;
-    bottom: auto;
     left: 72px;
     width: 1px;
-    height: 476px;
+    /* Reset the base desktop `height: 1px` so top+bottom can stretch. */
+    height: auto;
     background: repeating-linear-gradient(180deg, var(--icons) 0 4px, transparent 4px 8px);
     opacity: 0.55;
   }
