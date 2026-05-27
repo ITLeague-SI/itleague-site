@@ -94,6 +94,7 @@ img {
    (overridden inside the respective @media blocks). */
 .header-logo-mark {
   display: none;
+  align-self: center;
   align-items: center;
   justify-content: center;
   width: 24px;
@@ -1860,15 +1861,18 @@ h2 {
     position: static;
     display: grid;
     grid-column: 1;
+    grid-row: 1;
   }
 
   .header-logo-mark {
     display: inline-flex;
     grid-column: 2;
+    grid-row: 1;
   }
 
   .header-cta {
     grid-column: 4;
+    grid-row: 1;
   }
 
   .mobile-nav-panel {
@@ -2396,10 +2400,12 @@ h2 {
   .header-logo-mark {
     display: inline-flex;
     grid-column: 2;
+    grid-row: 1;
   }
 
   .header-cta {
     grid-column: 4;
+    grid-row: 1;
   }
 
   .site {
@@ -2415,6 +2421,7 @@ h2 {
     position: static;
     display: grid;
     grid-column: 1;
+    grid-row: 1;
   }
 
   .mobile-nav-panel {
