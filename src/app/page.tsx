@@ -253,25 +253,22 @@ export default function Home() {
                     fill="none"
                     aria-hidden="true"
                   >
-                    {index === 0 ? (
-                      /* Topmost icon — notched-corner page (Figma "Square" vector).
-                         Cut sits at the BOTTOM-RIGHT corner. */
-                      <path
-                        d="M0.5 0.5 H47.5 V33.5 L33.5 47.5 H0.5 Z"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                      />
-                    ) : (
-                      /* Stacked icons below — plain bordered square. */
-                      <rect
-                        x="0.5"
-                        y="0.5"
-                        width="47"
-                        height="47"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                      />
-                    )}
+                    {/* Both icons use <path/> so SVG renders them through
+                        identical anti-aliasing logic — keeps the stroke
+                        colour visually consistent between plain & notched. */}
+                    <path
+                      d={
+                        index === 0
+                          ? /* Notched square — cut at bottom-right. */
+                            "M0.5 0.5 H47.5 V33.5 L33.5 47.5 H0.5 Z"
+                          : /* Plain bordered square. */
+                            "M0.5 0.5 H47.5 V47.5 H0.5 Z"
+                      }
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1"
+                      strokeLinejoin="miter"
+                    />
                   </svg>
                 ))}
               </div>
