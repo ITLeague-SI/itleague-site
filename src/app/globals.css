@@ -2248,7 +2248,9 @@ h2 {
     margin-bottom: 60px;
   }
 
-  .founder-photos img {
+  /* Wrapper height — Next.js fill <img> uses inline height:100%, so
+     resize the wrapper to make tablet photos smaller. */
+  .founder-photo {
     height: 274px;
   }
 
@@ -2903,13 +2905,20 @@ h2 {
     gap: 8px;
   }
 
-  .founder-photos img {
+  /* Override the wrapper height — Next.js `fill` images inline-set
+     height:100%, so we have to size the wrapper, not the <img>. */
+  .founder-photo {
     height: 274px;
   }
 
+  /* Badge sits centred on the boundary between the two stacked photos.
+     6px container padding-top + wrapper-height 274 + half the 8px gap
+     (4) − half of the 56px badge (28) ≈ 257 from .founder-photos top. */
   .founder-photos span {
-    top: 250px;
+    top: 257px;
     bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .founders-card h3 {
