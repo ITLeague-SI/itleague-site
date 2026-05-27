@@ -274,8 +274,9 @@ export default function Home() {
                     <path
                       d={
                         index === 0
-                          ? /* Notched square — cut at bottom-right. */
-                            "M0.5 0.5 H47.5 V33.5 L33.5 47.5 H0.5 Z"
+                          ? /* Notched square — cut at TOP-RIGHT to match
+                               Figma node 23:237 (Junior). */
+                            "M0.5 0.5 H31 L47.5 16.5 V47.5 H0.5 Z"
                           : /* Plain bordered square. */
                             "M0.5 0.5 H47.5 V47.5 H0.5 Z"
                       }
