@@ -2092,8 +2092,12 @@ h2 {
   }
 
   .tariffs {
-    grid-template-columns: repeat(4, 246px);
-    overflow-x: auto;
+    /* Stack 2x2 on tablet — no horizontal scroll, cards wrap into rows.
+       Sticky is disabled since a wrapped grid is too tall to pin. */
+    position: static;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    overflow-x: visible;
     padding: 92px 6px 8px;
   }
 
@@ -2662,11 +2666,12 @@ h2 {
   }
 
   .tariffs {
-    position: sticky;
-    top: 48px;
-    grid-template-columns: repeat(4, 246px);
+    /* Single column on mobile — cards stack vertically, no scroll. */
+    position: static;
+    top: auto;
+    grid-template-columns: 1fr;
     gap: 8px;
-    overflow-x: auto;
+    overflow-x: visible;
     padding: 80px 6px 4px;
   }
 
