@@ -1871,13 +1871,16 @@ h2 {
   .hero,
   .section-shell,
   .prices {
-    padding: 0 40px;
+    /* Fluid side padding: ~5vw between 40-90px on this 701-900 range */
+    padding: 0 clamp(40px, 5vw, 90px);
   }
 
   .hero-inner,
   .section-inner,
   .prices-inner {
-    max-width: 688px;
+    /* Remove the hard 688px cap so content scales with viewport.
+       Combined with the fluid padding above, content sits at ~88-90%. */
+    max-width: none;
   }
 
   .code-block {
@@ -2357,13 +2360,17 @@ h2 {
   .hero,
   .section-shell,
   .prices {
-    padding: 0 16px;
+    /* Fluid side padding for ≤700px: between 16px on tiny phones and
+       ~40px on the upper end of this range. */
+    padding: 0 clamp(16px, 5vw, 40px);
   }
 
   .hero-inner,
   .section-inner,
   .prices-inner {
-    max-width: 328px;
+    /* Remove the hard 328px cap so content scales with viewport.
+       The fluid padding above keeps content at ~88-90% width. */
+    max-width: none;
   }
 
   .code-block {
