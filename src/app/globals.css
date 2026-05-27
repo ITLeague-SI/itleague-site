@@ -2038,9 +2038,12 @@ h2 {
        items at the start of the reversed axis (= right edge). */
     flex-direction: row-reverse;
     justify-content: flex-start;
+    align-items: flex-start;
     gap: 6px;
-    height: 54px;
-    padding: 0;
+    height: 62px;
+    /* 8px of breathing room between the horizontal divider above and
+       the 48px icons so the line doesn't touch the squares. */
+    padding: 8px 0 0;
     border-top: 1px solid var(--border-primary);
     border-left: 0;
   }
@@ -2628,12 +2631,14 @@ h2 {
   .level:nth-child(2) .level-squares,
   .level:nth-child(3) .level-squares {
     /* row-reverse + flex-start: notched (first DOM) ends up RIGHTMOST,
-       plain squares cascade to its left. */
+     plain squares cascade to its left. */
     flex-direction: row-reverse;
     justify-content: flex-start;
+    align-items: flex-start;
     gap: 6px;
-    height: 42px;
-    padding: 0;
+    height: 50px;
+    /* 8px breathing room between the horizontal divider and icons. */
+    padding: 8px 0 0;
     border-top: 1px solid var(--border-primary);
     border-left: 0;
   }
