@@ -2,8 +2,24 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Tektur } from "next/font/google";
 import "./globals.css";
 
+/**
+ * Resolves the canonical site URL in priority order:
+ *   1. NEXT_PUBLIC_SITE_URL — explicit override (e.g. on the HOSTiQ
+ *      production host where leagueit.org is the real domain).
+ *   2. VERCEL_PROJECT_PRODUCTION_URL — Vercel auto-injects this for
+ *      production deploys (e.g. priceless-leavitt-b2fe6a.vercel.app).
+ *   3. VERCEL_URL — Vercel auto-injects this for preview deploys
+ *      (deployment-specific hash URL).
+ *   4. Fallback to the real domain so local dev / unknown hosts
+ *      still emit valid absolute OG / canonical URLs.
+ */
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://leagueit.org";
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "https://leagueit.org");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
