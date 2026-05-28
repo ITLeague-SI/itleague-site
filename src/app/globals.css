@@ -2128,16 +2128,16 @@ h2 {
     height: 380px;
   }
 
-  /* Touch-friendly: show CTA permanently (hover unreliable on
-     touch-screens that fall into this breakpoint). */
-  .judge-photo::after {
-    opacity: 1;
-  }
-
+  /* Touch-friendly: show the 148×56 pill permanently (hover unreliable
+     on touch-screens that fall into this breakpoint). We deliberately
+     do NOT enable the full ::after gradient here — it created a wide
+     dark band behind the pill that drowned the compact button shape. */
   .judge-photo-cta {
     opacity: 1;
     transform: translate(-50%, 0);
     bottom: 20px;
+    background: rgba(10, 14, 20, 0.42);
+    border-color: rgba(230, 234, 240, 0.4);
   }
 
   .judge-card h3 {
@@ -2778,15 +2778,16 @@ h2 {
     min-height: 320px;
   }
 
-  /* На тач-устройствах hover не сработает — показываем CTA всегда */
-  .judge-photo::after {
-    opacity: 1;
-  }
-
+  /* На тач-устройствах hover не сработает — показываем CTA всегда.
+     Полноценный градиент (::after) намеренно не активируем: он
+     закрашивал нижнюю треть фото и визуально «съедал» компактную
+     148×56 кнопку — пилюля терялась в широком тёмном баннере. */
   .judge-photo-cta {
     opacity: 1;
     transform: translate(-50%, 0);
     bottom: 16px;
+    background: rgba(10, 14, 20, 0.42);
+    border-color: rgba(230, 234, 240, 0.4);
   }
 
   .judge-card h3 {
