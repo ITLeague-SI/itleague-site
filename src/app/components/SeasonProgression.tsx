@@ -1,5 +1,6 @@
 import type { SeasonPlan } from "@/lib/content";
 import { seasonPlans } from "@/lib/content";
+import { SeasonCountdown } from "./SeasonCountdown";
 
 const TOTAL_WEEKS = 12;
 /** Rating tournaments fall on these week numbers (3 per season). */
@@ -48,6 +49,8 @@ export function SeasonProgression() {
         <h2>Перший сезон IT LEAGUE — 12 тижнів суперництва</h2>
         <p>Кожен рейтинговий турнір формує позицію в загальному рейтингу</p>
       </div>
+
+      <SeasonCountdown />
 
       <div className="season-progression-grid" role="list">
         {seasonPlans.map((plan) => (

@@ -4125,6 +4125,69 @@ h2 {
   color: var(--text-secondary);
 }
 
+/* Countdown — "До старту сезону" timer below the heading. */
+.season-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin: -32px 0 8px;
+}
+
+.season-countdown-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.season-countdown-label svg {
+  color: var(--accent);
+}
+
+.season-countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(72px, 96px));
+  gap: 12px;
+}
+
+.season-countdown-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.season-countdown-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  padding: 12px 16px;
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  background: rgba(18, 22, 29, 0.6);
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.season-countdown-cell-label {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
 .season-progression-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -4378,5 +4441,17 @@ h2 {
   .season-progression-heading h2 {
     font-size: 24px;
     line-height: 32px;
+  }
+  .season-countdown-grid {
+    grid-template-columns: repeat(4, minmax(60px, 1fr));
+    gap: 8px;
+  }
+  .season-countdown-value {
+    min-width: 56px;
+    padding: 10px 8px;
+    font-size: 24px;
+  }
+  .season-countdown-cell-label {
+    font-size: 10px;
   }
 }

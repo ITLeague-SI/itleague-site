@@ -323,6 +323,12 @@ export const pricingTiers: PricingTier[] = [
   ...t,
 }));
 
+/** ISO-8601 timestamp for the first season's kickoff.
+ *  Used by the countdown timer in the Season Progression section.
+ *  Change this to push or pull the launch date — the timer recomputes
+ *  the moment the page loads. */
+export const SEASON_START_ISO = "2026-07-01T09:00:00+03:00";
+
 /** Season Progression — 12-week roadmap shown after the growth-steps
  *  section. Weeks 4 / 8 / 12 are rating tournaments, the rest are
  *  training weeks. Starter only sees the first 4 weeks. */
