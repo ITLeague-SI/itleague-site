@@ -17,13 +17,15 @@ export function SeasonProgression() {
   // render time — at module load order the icon function declarations
   // are not always reachable for some bundlers (Turbopack).
   const formatCards = [
+    /* Icons mirror the ones used inside each plan column above so the
+       visual language stays consistent across the section. */
     {
       icon: <TargetLargeIcon />,
       title: "Тренувальні турніри",
       description: "Підготовка до рейтингового турніру",
     },
     {
-      icon: <MedalIcon />,
+      icon: <TrophyLargeIcon />,
       title: "Рейтингові турніри",
       description: "Формують позицію в загальному рейтингу",
     },
@@ -58,16 +60,22 @@ export function SeasonProgression() {
         <span>Рейтинг оновлюється після кожного рейтингового турніру</span>
       </p>
 
-      <div className="season-format-grid" role="list">
-        {formatCards.map((card) => (
-          <article className="season-format-card" role="listitem" key={card.title}>
-            <span className="season-format-card-icon" aria-hidden="true">
-              {card.icon}
-            </span>
-            <h3>{card.title}</h3>
-            <p>{card.description}</p>
-          </article>
-        ))}
+      <div className="season-format-frame">
+        <div className="season-format-grid" role="list">
+          {formatCards.map((card) => (
+            <article
+              className="season-format-card"
+              role="listitem"
+              key={card.title}
+            >
+              <span className="season-format-card-icon" aria-hidden="true">
+                {card.icon}
+              </span>
+              <h3>{card.title}</h3>
+              <p>{card.description}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -286,20 +294,20 @@ function EyeLargeIcon() {
   );
 }
 
-function MedalIcon() {
+function TrophyLargeIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="15" r="6" stroke="currentColor" strokeWidth="1.5" />
       <path
-        d="M7.5 4.5 4 1l4 1.5L12 9 16 2.5 20 1l-3.5 3.5"
+        d="M7 3h10v5a5 5 0 0 1-5 5 5 5 0 0 1-5-5V3Z"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinejoin="round"
       />
       <path
-        d="M12 12.5 13 14.5 15.25 14.85 13.6 16.4 14 18.6 12 17.55 10 18.6 10.4 16.4 8.75 14.85 11 14.5Z"
+        d="M4 5h3M17 5h3M10 13v4h4v-4M9 17h6M7 20h10v-3H7v3Z"
         stroke="currentColor"
-        strokeWidth="1.3"
+        strokeWidth="1.5"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
