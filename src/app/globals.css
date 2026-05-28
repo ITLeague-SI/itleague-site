@@ -764,7 +764,10 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 40px 116px;
+  /* Без нижнего отступа — вертикальные линии .level-squares должны
+     упираться в полосу CTA (.level-icons), которая идёт сразу
+     следом за .levels. */
+  padding: 0 40px;
 }
 
 /* Each level — Figma "Level-container"
@@ -780,12 +783,12 @@ h2 {
    уезжали на все .level-squares — вертикальные линии исчезали у
    Middle и Senior. Атрибутный селектор не подлежит этой оптимизации. */
 .level[data-bars="1"],
-.level[data-bars="2"] {
-  align-items: flex-end;
-}
-
+.level[data-bars="2"],
 .level[data-bars="3"] {
-  align-items: center;
+  /* Все три уровня выровнены по нижнему краю строки — это нужно,
+     чтобы нижние края всех .level-squares лежали на одной линии и
+     одновременно «упирались» в CTA-полосу .level-icons снизу. */
+  align-items: flex-end;
 }
 
 /* Icon column — Figma "Decor-container"
@@ -804,8 +807,9 @@ h2 {
 
 .level[data-bars="1"] .level-squares {
   height: 164px;
-  border-left: 0;
-  padding-left: 0;
+  /* Junior раньше не имел вертикальной линии (Figma вариант без бордера),
+     но по обновлённому дизайну линия нужна всем трём уровням —
+     чтобы все три «стойки» одинаково контачили с CTA-полосой ниже. */
 }
 
 .level[data-bars="2"] .level-squares {
