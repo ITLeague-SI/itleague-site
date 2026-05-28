@@ -3802,16 +3802,18 @@ h2 {
 
 .free-trial-modal-close {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
+  /* Сдвигаем правее и чуть выше — так круг не наезжает на заголовок
+     и читается как отдельный элемент в углу. */
+  top: -4px;
+  right: -8px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border: 1px solid rgba(58, 69, 86, 0.4);
   border-radius: 999px;
   background: rgba(33, 38, 50, 0.5);
   color: var(--text-secondary);
-  font-size: 22px;
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
