@@ -416,11 +416,19 @@ export default function Home() {
         </div>
       </Shell>
 
-      <Shell className="season">
-        <SeasonProgression />
-      </Shell>
+      {/* Temporarily hidden by request — flip to `true` to bring the
+          whole "Перший сезон IT LEAGUE" section (and its divider)
+          back. Keeps SeasonProgression component, countdown timer,
+          plan data, format cards data, and all CSS intact. */}
+      {false && (
+        <>
+          <Shell className="season">
+            <SeasonProgression />
+          </Shell>
 
-      <hr className="section-divider" aria-hidden="true" />
+          <hr className="section-divider" aria-hidden="true" />
+        </>
+      )}
 
       <Shell className="founders">
         <CodeBlock lines={[["System origin", "competitive practice"], ["Experience", "proven"], ["Iterations", "multiple seasons"]]} />
