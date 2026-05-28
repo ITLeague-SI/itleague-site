@@ -3,7 +3,7 @@ import { Inter, JetBrains_Mono, Tektur } from "next/font/google";
 import "./globals.css";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://itleague.example.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://leagueit.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
