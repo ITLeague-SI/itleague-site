@@ -964,12 +964,16 @@ h2 {
   transition: opacity 0.3s ease;
 }
 
-.judge-card:hover .judge-photo::after,
-.judge-card:focus-visible .judge-photo::after {
-  opacity: 1;
-}
+/* Градиент .judge-photo::after по дизайну не активируется при hover —
+   пилюля «Детальніше» теперь видна сразу и читается на любом фото
+   благодаря собственному тёмному glass-фону. Раньше градиент создавал
+   широкую тёмную полосу, в которой компактная 148×56 пилюля «тонула». */
 
-/* Кнопка «Детальніше →» — 148×56 (node 23:302), центрирована, скрыта по умолчанию */
+/* Кнопка «Детальніше →» — 148×56 (node 23:302), центрирована, видна всегда.
+   Раньше пилюля поднималась из под градиента только на hover, а тач-устройства
+   не получали этого hover-эффекта. Теперь кнопка постоянно видна на всех
+   вьюпортах, а градиент .judge-photo::after оставлен только как декоративное
+   усиление на hover (см. ниже — он сделан мягче, чтобы не «заливать» пилюлю). */
 .judge-photo-cta {
   position: absolute;
   bottom: 40px;
@@ -981,8 +985,8 @@ h2 {
   align-items: center;
   justify-content: center;
   padding: 20px 24px;
-  background: rgba(230, 234, 240, 0.04);
-  border: 1px solid rgba(230, 234, 240, 0.28);
+  background: rgba(10, 14, 20, 0.42);
+  border: 1px solid rgba(230, 234, 240, 0.4);
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
   color: #e6eaf0;
@@ -994,8 +998,8 @@ h2 {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transform: translate(-50%, 12px) scale(1);
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
   transition:
     opacity 0.3s ease,
     transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1),
@@ -1026,11 +1030,9 @@ h2 {
   transition: transform 0.25s ease;
 }
 
-.judge-card:hover .judge-photo-cta,
-.judge-card:focus-visible .judge-photo-cta {
-  opacity: 1;
-  transform: translate(-50%, 0) scale(1);
-}
+/* Пилюля видна по умолчанию (opacity: 1, transform: translate(-50%,0)
+   на базовом селекторе) — отдельный hover-reveal больше не нужен.
+   Личный hover самой кнопки (подъём + scale + ярче) остаётся ниже. */
 
 /* Усиленный hover именно на самой кнопке: чуть плотнее фон + подъём + scale */
 .judge-card .judge-photo-cta:hover {
@@ -2128,16 +2130,10 @@ h2 {
     height: 380px;
   }
 
-  /* Touch-friendly: show the 148×56 pill permanently (hover unreliable
-     on touch-screens that fall into this breakpoint). We deliberately
-     do NOT enable the full ::after gradient here — it created a wide
-     dark band behind the pill that drowned the compact button shape. */
+  /* Базовая пилюля уже видна и затемнена на всех вьюпортах — здесь
+     только подвигаем её ближе ко краю фото на тонком вьюпорте. */
   .judge-photo-cta {
-    opacity: 1;
-    transform: translate(-50%, 0);
     bottom: 20px;
-    background: rgba(10, 14, 20, 0.42);
-    border-color: rgba(230, 234, 240, 0.4);
   }
 
   .judge-card h3 {
@@ -2778,16 +2774,10 @@ h2 {
     min-height: 320px;
   }
 
-  /* На тач-устройствах hover не сработает — показываем CTA всегда.
-     Полноценный градиент (::after) намеренно не активируем: он
-     закрашивал нижнюю треть фото и визуально «съедал» компактную
-     148×56 кнопку — пилюля терялась в широком тёмном баннере. */
+  /* Базовая пилюля уже видна и затемнена на всех вьюпортах — здесь
+     только подвигаем её ближе ко краю фото на узком мобильном экране. */
   .judge-photo-cta {
-    opacity: 1;
-    transform: translate(-50%, 0);
     bottom: 16px;
-    background: rgba(10, 14, 20, 0.42);
-    border-color: rgba(230, 234, 240, 0.4);
   }
 
   .judge-card h3 {
