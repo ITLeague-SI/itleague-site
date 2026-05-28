@@ -12,31 +12,34 @@ const RATING_WEEKS = new Set([4, 8, 12]);
  *
  * Figma node 3:3 in the pop-up file.
  */
-const FORMAT_CARDS = [
-  {
-    icon: <TargetLargeIcon />,
-    title: "Тренувальні турніри",
-    description: "Підготовка до рейтингового турніру",
-  },
-  {
-    icon: <MedalIcon />,
-    title: "Рейтингові турніри",
-    description: "Формують позицію в загальному рейтингу",
-  },
-  {
-    icon: <EyeLargeIcon />,
-    title: "Суддівська оцінка та фідбек",
-    description:
-      "Експертний розбір, який перетворює досвід у реальний прогрес.",
-  },
-  {
-    icon: <FlagIcon />,
-    title: "Фінал сезону",
-    description: "Точка піку, де боротьба переходить у заслужену перемогу.",
-  },
-];
-
 export function SeasonProgression() {
+  // Declared inside the function so the JSX references resolve at
+  // render time — at module load order the icon function declarations
+  // are not always reachable for some bundlers (Turbopack).
+  const formatCards = [
+    {
+      icon: <TargetLargeIcon />,
+      title: "Тренувальні турніри",
+      description: "Підготовка до рейтингового турніру",
+    },
+    {
+      icon: <MedalIcon />,
+      title: "Рейтингові турніри",
+      description: "Формують позицію в загальному рейтингу",
+    },
+    {
+      icon: <EyeLargeIcon />,
+      title: "Суддівська оцінка та фідбек",
+      description:
+        "Експертний розбір, який перетворює досвід у реальний прогрес.",
+    },
+    {
+      icon: <FlagIcon />,
+      title: "Фінал сезону",
+      description:
+        "Точка піку, де боротьба переходить у заслужену перемогу.",
+    },
+  ];
   return (
     <section className="season-progression">
       <div className="season-progression-heading">
@@ -56,7 +59,7 @@ export function SeasonProgression() {
       </p>
 
       <div className="season-format-grid" role="list">
-        {FORMAT_CARDS.map((card) => (
+        {formatCards.map((card) => (
           <article className="season-format-card" role="listitem" key={card.title}>
             <span className="season-format-card-icon" aria-hidden="true">
               {card.icon}
