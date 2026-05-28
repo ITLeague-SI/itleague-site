@@ -258,7 +258,14 @@ export default function Home() {
         <h2>Одна ліга. Різні рівні</h2>
         <div className="levels">
           {levels.map(([level, title, line1, line2, bars]) => (
-            <article className="level" key={level}>
+            // `data-bars={bars}` дублирует :nth-child(N)-логику в виде атрибута.
+            // Это нужно, потому что Lightning CSS (минификатор Next.js 16)
+            // иногда «упрощает» селектор `.level:nth-child(1) .level-squares`,
+            // отбрасывая часть `:nth-child(1)`. Из-за этого правила первого
+            // уровня (Junior — border-left: 0, height: 164) применялись ко
+            // всем .level-squares, и вертикальные линии пропадали у Middle
+            // и Senior. С `data-bars` селектор уникален и не оптимизируется.
+            <article className="level" data-bars={bars} key={level}>
               <div className="level-squares">
                 {Array.from({ length: bars }).map((_, index) => (
                   <svg

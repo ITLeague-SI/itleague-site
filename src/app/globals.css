@@ -774,12 +774,17 @@ h2 {
   gap: 32px;
 }
 
-.level:nth-child(1),
-.level:nth-child(2) {
+/* `[data-bars="N"]` вместо `:nth-child(N)` — Lightning CSS (Next.js 16)
+   при минификации обрезал `.level:nth-child(1)` префикс у одного из
+   правил, из-за чего «junior»-стили (border-left: 0, height: 164)
+   уезжали на все .level-squares — вертикальные линии исчезали у
+   Middle и Senior. Атрибутный селектор не подлежит этой оптимизации. */
+.level[data-bars="1"],
+.level[data-bars="2"] {
   align-items: flex-end;
 }
 
-.level:nth-child(3) {
+.level[data-bars="3"] {
   align-items: center;
 }
 
@@ -797,17 +802,17 @@ h2 {
   border-left: 1px solid var(--border-primary);
 }
 
-.level:nth-child(1) .level-squares {
+.level[data-bars="1"] .level-squares {
   height: 164px;
   border-left: 0;
   padding-left: 0;
 }
 
-.level:nth-child(2) .level-squares {
+.level[data-bars="2"] .level-squares {
   height: 218px;
 }
 
-.level:nth-child(3) .level-squares {
+.level[data-bars="3"] .level-squares {
   height: 278px;
 }
 
@@ -2066,22 +2071,22 @@ h2 {
     padding: 0 36px;
   }
 
-  .level:nth-child(1) {
+  .level[data-bars="1"] {
     width: 398px;
   }
 
-  .level:nth-child(2) {
+  .level[data-bars="2"] {
     width: 514px;
   }
 
-  .level:nth-child(3) {
+  .level[data-bars="3"] {
     width: 630px;
   }
 
   .level-squares,
-  .level:nth-child(1) .level-squares,
-  .level:nth-child(2) .level-squares,
-  .level:nth-child(3) .level-squares {
+  .level[data-bars="1"] .level-squares,
+  .level[data-bars="2"] .level-squares,
+  .level[data-bars="3"] .level-squares {
     /* row-reverse so the FIRST DOM child (notched) lands at the
        RIGHTMOST position, with plain squares cascading to its left —
        matches Figma node 23:1059. justify-content: flex-start packs
@@ -2702,9 +2707,9 @@ h2 {
   }
 
   .level,
-  .level:nth-child(1),
-  .level:nth-child(2),
-  .level:nth-child(3) {
+  .level[data-bars="1"],
+  .level[data-bars="2"],
+  .level[data-bars="3"] {
     display: block;
     width: 100%;
     min-height: 206px;
@@ -2712,9 +2717,9 @@ h2 {
   }
 
   .level-squares,
-  .level:nth-child(1) .level-squares,
-  .level:nth-child(2) .level-squares,
-  .level:nth-child(3) .level-squares {
+  .level[data-bars="1"] .level-squares,
+  .level[data-bars="2"] .level-squares,
+  .level[data-bars="3"] .level-squares {
     /* row-reverse + flex-start: notched (first DOM) ends up RIGHTMOST,
      plain squares cascade to its left. */
     flex-direction: row-reverse;
