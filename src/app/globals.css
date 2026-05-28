@@ -1409,8 +1409,9 @@ h2 {
 .growth-body {
   display: flex;
   flex-direction: column;
-  gap: 80px;
-  padding-bottom: 116px;
+  gap: 120px;
+  padding-top: 64px;
+  padding-bottom: 180px;
 }
 
 .growth-line {
