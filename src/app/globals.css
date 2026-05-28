@@ -4381,7 +4381,9 @@ h2 {
   padding: 32px clamp(20px, 3vw, 40px);
   border: 1px solid var(--border-primary);
   border-radius: 16px;
-  background: rgba(10, 13, 18, 0.4);
+  /* Inherits the page's dark background — keeps the frame visually
+     transparent, so only its border outlines the group. */
+  background: transparent;
 }
 
 .season-format-grid {
