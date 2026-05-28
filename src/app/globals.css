@@ -3764,9 +3764,20 @@ h2 {
   max-width: 600px;
   max-height: calc(100vh - 32px);
   padding: 16px;
-  /* Scroll happens INSIDE the modal — page itself stays static. */
+  /* Scroll happens INSIDE the modal — page itself stays static.
+     Visible scrollbar hidden across engines, but wheel/touch scroll
+     still works on viewports where the form exceeds 100vh. */
   overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge / IE */
   animation: free-trial-slide-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.free-trial-modal::-webkit-scrollbar {
+  /* Chrome, Safari, Opera, modern Edge */
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .free-trial-modal-close {
