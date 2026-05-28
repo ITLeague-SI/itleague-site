@@ -63,23 +63,28 @@ export function SeasonProgression() {
         <span>Рейтинг оновлюється після кожного рейтингового турніру</span>
       </p>
 
-      <div className="season-format-frame">
-        <div className="season-format-grid" role="list">
-          {formatCards.map((card) => (
-            <article
-              className="season-format-card"
-              role="listitem"
-              key={card.title}
-            >
-              <span className="season-format-card-icon" aria-hidden="true">
-                {card.icon}
-              </span>
-              <h3>{card.title}</h3>
-              <p>{card.description}</p>
-            </article>
-          ))}
+      {/* Temporarily hidden by request — re-enable by changing
+          showFormatFrame to true. Keeps formatCards data, icons, and
+          all related styles in the codebase. */}
+      {false && (
+        <div className="season-format-frame">
+          <div className="season-format-grid" role="list">
+            {formatCards.map((card) => (
+              <article
+                className="season-format-card"
+                role="listitem"
+                key={card.title}
+              >
+                <span className="season-format-card-icon" aria-hidden="true">
+                  {card.icon}
+                </span>
+                <h3>{card.title}</h3>
+                <p>{card.description}</p>
+              </article>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
