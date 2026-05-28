@@ -12,6 +12,30 @@ const RATING_WEEKS = new Set([4, 8, 12]);
  *
  * Figma node 3:3 in the pop-up file.
  */
+const FORMAT_CARDS = [
+  {
+    icon: <TargetLargeIcon />,
+    title: "Тренувальні турніри",
+    description: "Підготовка до рейтингового турніру",
+  },
+  {
+    icon: <MedalIcon />,
+    title: "Рейтингові турніри",
+    description: "Формують позицію в загальному рейтингу",
+  },
+  {
+    icon: <EyeLargeIcon />,
+    title: "Суддівська оцінка та фідбек",
+    description:
+      "Експертний розбір, який перетворює досвід у реальний прогрес.",
+  },
+  {
+    icon: <FlagIcon />,
+    title: "Фінал сезону",
+    description: "Точка піку, де боротьба переходить у заслужену перемогу.",
+  },
+];
+
 export function SeasonProgression() {
   return (
     <section className="season-progression">
@@ -30,6 +54,18 @@ export function SeasonProgression() {
         <BoltIcon />
         <span>Рейтинг оновлюється після кожного рейтингового турніру</span>
       </p>
+
+      <div className="season-format-grid" role="list">
+        {FORMAT_CARDS.map((card) => (
+          <article className="season-format-card" role="listitem" key={card.title}>
+            <span className="season-format-card-icon" aria-hidden="true">
+              {card.icon}
+            </span>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
@@ -218,6 +254,63 @@ function BoltIcon() {
         d="m9.333 1.333-6 8.667h4l-.667 4.667 6-8.667H8.667L9.333 1.333Z"
         stroke="currentColor"
         strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function TargetLargeIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function EyeLargeIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M1.5 12s3.75-7 10.5-7 10.5 7 10.5 7-3.75 7-10.5 7S1.5 12 1.5 12Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function MedalIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="15" r="6" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M7.5 4.5 4 1l4 1.5L12 9 16 2.5 20 1l-3.5 3.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 12.5 13 14.5 15.25 14.85 13.6 16.4 14 18.6 12 17.55 10 18.6 10.4 16.4 8.75 14.85 11 14.5Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function FlagIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 22V3M4 4h13l-2 4 2 4H4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
