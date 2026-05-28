@@ -3749,9 +3749,13 @@ h2 {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(5, 7, 10, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* Frosted-glass overlay: сильное размытие фоновой страницы +
+     прозрачный тёмный слой, чтобы было видно, что под модалкой
+     действительно есть страница (а не плотный чёрный fill).
+     Saturation pump делает цвета сайта живее сквозь blur. */
+  background: rgba(8, 11, 16, 0.42);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   animation: free-trial-fade-in 0.2s ease;
 }
 
