@@ -42,6 +42,24 @@ export type PricingTier = {
   paymentUrl: string | null;
 };
 
+export type SeasonPlan = {
+  id: string;
+  name: string;
+  /** Weeks the tier participates in (1-12). Starter only has 1-4. */
+  activeUntilWeek: number;
+  /** Small badge in the top-right corner of the column (◆ for Core,
+   *  ★ for Pro). null for plain headers. */
+  badge: "diamond" | "star" | null;
+  stats: {
+    training: number;
+    rating: number;
+    judges: string;     // "—" | "Full" | "Priority"
+    community: string;  // "Basic" | "Full"
+    feedback: string;   // "—" | "Yes" | "Priority"
+    mentoring?: string; // only Pro has this row
+  };
+};
+
 export type PricingFeature = {
   id: string;
   label: string;
@@ -304,6 +322,63 @@ export const pricingTiers: PricingTier[] = [
   id: `tier-${i}`,
   ...t,
 }));
+
+/** Season Progression — 12-week roadmap shown after the growth-steps
+ *  section. Weeks 4 / 8 / 12 are rating tournaments, the rest are
+ *  training weeks. Starter only sees the first 4 weeks. */
+export const seasonPlans: SeasonPlan[] = (
+  [
+    {
+      name: "Starter",
+      activeUntilWeek: 4,
+      badge: null,
+      stats: {
+        training: 3,
+        rating: 1,
+        judges: "—",
+        community: "Basic",
+        feedback: "—",
+      },
+    },
+    {
+      name: "Basic",
+      activeUntilWeek: 12,
+      badge: null,
+      stats: {
+        training: 9,
+        rating: 3,
+        judges: "—",
+        community: "Full",
+        feedback: "Yes",
+      },
+    },
+    {
+      name: "Core",
+      activeUntilWeek: 12,
+      badge: "diamond",
+      stats: {
+        training: 9,
+        rating: 3,
+        judges: "Full",
+        community: "Full",
+        feedback: "Yes",
+      },
+    },
+    {
+      name: "Pro",
+      activeUntilWeek: 12,
+      badge: "star",
+      stats: {
+        training: 9,
+        rating: 3,
+        judges: "Priority",
+        community: "Full",
+        feedback: "Priority",
+        mentoring: "Yes",
+      },
+    },
+  ] as const
+).map((p, i) => ({ id: `season-plan-${i}`, ...p }));
 
 export const pricingFeatures: PricingFeature[] = [
   ["Доступ до контенту", "частково", "✅", "✅", "✅"],

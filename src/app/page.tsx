@@ -18,6 +18,7 @@ import { GrowthSteps } from "./components/GrowthSteps";
 import { KyivClock } from "./components/KyivClock";
 import { MobileMenu } from "./components/MobileMenu";
 import { PaymentSuccessBanner } from "./components/PaymentSuccessBanner";
+import { SeasonProgression } from "./components/SeasonProgression";
 import { TestimonialsCarousel } from "./components/TestimonialsCarousel";
 
 const navItems = [
@@ -413,6 +414,10 @@ export default function Home() {
           <h2>П&apos;ять кроків до росту</h2>
           <GrowthSteps />
         </div>
+      </Shell>
+
+      <Shell className="season">
+        <SeasonProgression />
       </Shell>
 
       <Shell className="founders">

@@ -4089,3 +4089,239 @@ h2 {
     height: 40px;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Season Progression — Figma node 3:3 in the pop-up file              */
+/* ------------------------------------------------------------------ */
+.season-progression {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  padding: 96px 0;
+}
+
+.season-progression-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+
+.season-progression-heading h2 {
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: var(--font-tektur), sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  color: var(--text-primary);
+}
+
+.season-progression-heading p {
+  margin: 0;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--text-secondary);
+}
+
+.season-progression-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.season-plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  background: rgba(18, 22, 29, 0.6);
+}
+
+.season-plan-badge {
+  position: absolute;
+  top: -16px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--background-card);
+  color: var(--text-primary);
+  font-size: 14px;
+  border: 1px solid var(--border-primary);
+}
+
+.season-plan-badge-diamond {
+  color: #6ea8ff;
+}
+
+.season-plan-badge-star {
+  color: #ffd166;
+}
+
+.season-plan-header {
+  padding: 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.season-plan-header h3 {
+  margin: 0;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--text-primary);
+}
+
+.season-plan-weeks {
+  list-style: none;
+  margin: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.season-plan-week {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  background: rgba(15, 19, 26, 0.4);
+  font-family: var(--font-inter), sans-serif;
+  font-size: 13px;
+  color: var(--text-secondary);
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.season-plan-week-label {
+  font-weight: 500;
+}
+
+.season-plan-week-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--icons);
+}
+
+.season-plan-week-rating {
+  border-color: rgba(110, 168, 255, 0.3);
+  background: rgba(110, 168, 255, 0.06);
+  color: var(--text-primary);
+}
+
+.season-plan-week-rating .season-plan-week-icons {
+  color: var(--accent);
+}
+
+.season-plan-week-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.season-plan-week-inactive {
+  opacity: 0.3;
+}
+
+.season-plan-stats {
+  margin: 0;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.season-plan-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
+.season-plan-stat-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.season-plan-stat-icon {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  color: var(--icons);
+}
+
+.season-plan-stat-value {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.season-plan-stat.is-highlight .season-plan-stat-value,
+.season-plan-stat.is-highlight .season-plan-stat-icon {
+  color: var(--accent);
+}
+
+.season-progression-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding-top: 16px;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
+.season-progression-footer svg {
+  color: var(--accent);
+}
+
+/* Tablet — 2×2 grid of plan columns. */
+@media (max-width: 900px) {
+  .season-progression {
+    gap: 48px;
+    padding: 64px 0;
+  }
+  .season-progression-heading h2 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  .season-progression-heading p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .season-progression-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile — single column stack. */
+@media (max-width: 600px) {
+  .season-progression-grid {
+    grid-template-columns: 1fr;
+  }
+  .season-progression-heading h2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
