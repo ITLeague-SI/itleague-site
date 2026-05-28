@@ -3751,12 +3751,28 @@ h2 {
   padding: 16px;
   /* Frosted-glass overlay: сильное размытие фоновой страницы +
      прозрачный тёмный слой, чтобы было видно, что под модалкой
-     действительно есть страница (а не плотный чёрный fill).
-     Saturation pump делает цвета сайта живее сквозь blur. */
+     действительно есть страница (а не плотный чёрный fill). */
   background: rgba(8, 11, 16, 0.42);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
   animation: free-trial-fade-in 0.2s ease;
+}
+
+/* `backdrop-filter` вынесены в отдельные `@supports`-блоки, потому что
+   Lightning CSS (компилятор Next.js 16) при минификации видит две
+   эквивалентные декларации (`backdrop-filter` и `-webkit-backdrop-filter`)
+   и оставляет в выводе только одну из них. Из-за этого современный
+   Chrome (76+, ожидает unprefixed) переставал получать blur.
+   Внутри `@supports` каждое правило живёт в собственной грануле и не
+   подлежит дедупликации между ветвями. */
+@supports (backdrop-filter: blur(24px)) {
+  .free-trial-modal-backdrop {
+    backdrop-filter: blur(24px);
+  }
+}
+
+@supports ((-webkit-backdrop-filter: blur(24px)) and (not (backdrop-filter: blur(24px)))) {
+  .free-trial-modal-backdrop {
+    -webkit-backdrop-filter: blur(24px);
+  }
 }
 
 .free-trial-modal {
