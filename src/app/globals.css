@@ -4091,6 +4091,20 @@ h2 {
 }
 
 /* ------------------------------------------------------------------ */
+/* Section divider — thin horizontal rule between content sections.    */
+/* ------------------------------------------------------------------ */
+.section-divider {
+  width: min(100%, 1800px);
+  height: 1px;
+  margin: 0 auto;
+  border: 0;
+  background: var(--border-primary);
+  /* Match the side padding of the surrounding sections so the line
+     visually aligns with the content edges, not the viewport edges. */
+  max-width: calc(100% - 2 * clamp(24px, 5vw, 120px));
+}
+
+/* ------------------------------------------------------------------ */
 /* Season Progression — Figma node 3:3 in the pop-up file              */
 /* ------------------------------------------------------------------ */
 .season-progression {

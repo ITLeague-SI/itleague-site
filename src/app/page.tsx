@@ -420,6 +420,8 @@ export default function Home() {
         <SeasonProgression />
       </Shell>
 
+      <hr className="section-divider" aria-hidden="true" />
+
       <Shell className="founders">
         <CodeBlock lines={[["System origin", "competitive practice"], ["Experience", "proven"], ["Iterations", "multiple seasons"]]} />
         <div className="founders-card">
